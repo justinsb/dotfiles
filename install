@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+#set -x
+
+SRCDIR=~/.dotfiles
+
+skipfiles='.gitignore README.md install'
+
+cd ${SRCDIR}
+git ls-files -o -c --exclude-standard | while read file; do
+	skipped=0
+	for skipfile in $skipfiles; do
+		if [[ $skipfile == $file ]]; then
+			skipped=1
+		fi
+	done
+	if [[ $skipped == 1 ]]; then
+		continue
+	fi
+
+	src="${SRCDIR}/$file"
+	dst="${HOME}/$file"
+	if [[ -e "$dst" ]]; then
+		echo "$dst  exists"
+	else
+		ln -s $src $dst
+		echo "$dst  symlinked"
+	fi
+done
+

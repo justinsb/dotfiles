@@ -21,8 +21,10 @@ git ls-files -o -c --exclude-standard | while read file; do
 
 	src="${SRCDIR}/$file"
 	dst="${HOME}/$file"
-	if [[ -e "$dst" ]]; then
+	if [[ -h "$dst" ]]; then
 		echo "$dst  exists"
+	elif [[ -e "$dst" ]]; then
+		echo "$dst NOT SYMLINK"
 	else
 		ln -s $src $dst
 		echo "$dst  symlinked"

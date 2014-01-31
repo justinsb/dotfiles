@@ -26,6 +26,8 @@ git ls-files -o -c --exclude-standard | while read file; do
 	elif [[ -e "$dst" ]]; then
 		echo "$dst NOT SYMLINK"
 	else
+		parentdir=`dirname $dst`
+		mkdir -p $parentdir
 		ln -s $src $dst
 		echo "$dst  symlinked"
 	fi

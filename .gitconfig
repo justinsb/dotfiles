@@ -1,3 +1,5 @@
 [user]
 	email = justin@fathomdb.com
 	name = Justin SB
+[core]
+	editor = vim

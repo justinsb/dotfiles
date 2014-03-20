@@ -1,0 +1,5 @@
+#!/bin/bash -ex
+
+mkdir -p ~/bin
+
+ln -s /usr/bin/google-chrome ~/bin/chrome

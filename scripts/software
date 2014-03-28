@@ -1,12 +1,27 @@
 #!/bin/bash -ex
 
+if [[ ! -e /etc/apt/sources.list.d/google.list ]] ; then
+	echo "deb http://dl.google.com/linux/deb/ stable main" > /etc/apt/sources.list.d/google.list
 
-echo "deb http://dl.google.com/linux/deb/ stable main" > /etc/apt/sources.list.d/google.list
+	wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 
-wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
-
+fi
 
 apt-get update
 
 apt-get install --yes google-chrome-stable
+apt-get install --yes gedit
+apt-get install --yes git bzr mercurial
+apt-get install --yes awesome awesome-extra
+apt-get install --yes openjdk-7-jdk
+apt-get install --yes htop iftop
+apt-get install --yes vim
+
+
+
+if [[ ! -e /usr/local/go ]]; then
+	wget "http://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz" -O /tmp/go.tar.gz
+	tar -C /usr/local -xzf /tmp/go.tar.gz
+fi
+
 

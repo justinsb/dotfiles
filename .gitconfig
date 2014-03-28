@@ -3,3 +3,5 @@
 	name = Justin SB
 [core]
 	editor = vim
+[push]
+	default = simple

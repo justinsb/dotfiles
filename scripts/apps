@@ -5,12 +5,12 @@ mkdir -p ~/bin
 ln -s -f /usr/bin/google-chrome ~/bin/chrome
 mkdir -p ~/apps
 
-if [[ ! -e ~/apps/eclipse ]]; then
-	wget "http://ftp.osuosl.org/pub/eclipse//technology/epp/downloads/release/kepler/SR2/eclipse-java-kepler-SR2-linux-gtk-x86_64.tar.gz" -O /tmp/eclipse.tar.gz
-
-	cd ~/apps/
-	tar zxf /tmp/eclipse.tar.gz
-fi
-
-ln -s -f ~/apps/eclipse/eclipse ~/bin/eclipse
+#if [[ ! -e ~/apps/eclipse ]]; then
+#	wget "http://ftp.osuosl.org/pub/eclipse//technology/epp/downloads/release/kepler/SR2/eclipse-java-kepler-SR2-linux-gtk-x86_64.tar.gz" -O /tmp/eclipse.tar.gz
+#
+#	cd ~/apps/
+#	tar zxf /tmp/eclipse.tar.gz
+#fi
+#
+#ln -s -f ~/apps/eclipse/eclipse ~/bin/eclipse
 

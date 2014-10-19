@@ -18,11 +18,11 @@ apt-get install --yes htop iftop
 apt-get install --yes vim
 
 apt-get install --yes screen
+apt-get install --yes gdm3 gnome-terminal fonts-noto fonts-liberation
 
-
-if [[ ! -e /usr/local/go ]]; then
-	wget "http://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz" -O /tmp/go.tar.gz
-	tar -C /usr/local -xzf /tmp/go.tar.gz
-fi
+#if [[ ! -e /usr/local/go ]]; then
+#	wget "http://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz" -O /tmp/go.tar.gz
+#	tar -C /usr/local -xzf /tmp/go.tar.gz
+#fi
 
 

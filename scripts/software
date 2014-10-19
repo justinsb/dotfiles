@@ -17,6 +17,7 @@ apt-get install --yes openjdk-7-jdk
 apt-get install --yes htop iftop
 apt-get install --yes vim
 
+apt-get install --yes screen
 
 
 if [[ ! -e /usr/local/go ]]; then

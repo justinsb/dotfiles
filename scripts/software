@@ -19,6 +19,7 @@ apt-get install --yes vim
 
 apt-get install --yes screen
 apt-get install --yes gdm3 gnome-terminal fonts-noto fonts-liberation
+apt-get install --yes x11-apps
 
 #if [[ ! -e /usr/local/go ]]; then
 #	wget "http://go.googlecode.com/files/go1.2.1.linux-amd64.tar.gz" -O /tmp/go.tar.gz

@@ -1,0 +1,18 @@
+#!/bin/bash -ex
+
+mkdir -p ~/apps
+cd ~/apps
+
+if [[ ! -d apache-ant-1.9.4 ]]; then
+  wget ftp://ftp.osuosl.org/pub/apache//ant/binaries/apache-ant-1.9.4-bin.tar.gz
+  tar zxf apache-ant-1.9.4-bin.tar.gz
+  rm -f ant
+  ln -s apache-ant-1.9.4 ant
+fi
+
+mkdir -p ~/bin
+cd ~/bin
+ln -s ~/apps/ant/bin/ant
+
+
+brew install protobuf

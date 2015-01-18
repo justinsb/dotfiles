@@ -1,0 +1,14 @@
+#!/bin/bash -ex
+
+mkdir -p ~/apps
+cd ~/apps
+
+if [[ ! -d apache-maven-3.2.3 ]]; then
+  curl -O http://www.us.apache.org/dist/maven/maven-3/3.2.3/binaries/apache-maven-3.2.3-bin.tar.gz
+  tar zxf apache-maven-3.2.3-bin.tar.gz
+  ln -s apache-maven-3.2.3 apache-maven
+fi
+
+mkdir -p ~/bin
+cd ~/bin
+ln -s ~/apps/apache-maven/bin/mvn

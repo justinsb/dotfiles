@@ -18,7 +18,8 @@ apt-get install --yes htop iftop
 apt-get install --yes vim
 
 apt-get install --yes screen
-apt-get install --yes gdm3 gnome-terminal fonts-noto fonts-liberation
+apt-get install --yes gdm3 || apt-get install --yes gdm
+apt-get install --yes gnome-terminal fonts-noto fonts-liberation
 apt-get install --yes x11-apps
 
 #if [[ ! -e /usr/local/go ]]; then

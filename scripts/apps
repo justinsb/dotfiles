@@ -14,3 +14,14 @@ mkdir -p ~/apps
 #
 #ln -s -f ~/apps/eclipse/eclipse ~/bin/eclipse
 
+if [[ ! -e ~/apps/webstorm ]]; then
+	wget "http://download.jetbrains.com/webstorm/WebStorm-9.0.3.tar.gz" -O /tmp/webstorm.tar.gz
+	cd ~/apps
+	tar zxf /tmp/webstorm.tar.gz
+	ln -s WebStorm-139.1112 webstorm
+        rm /tmp/webstorm.tar.gz
+fi
+
+ln -s -f ~/apps/webstorm/bin/webstorm.sh ~/bin/webstorm
+
+

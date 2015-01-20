@@ -4,6 +4,7 @@ mkdir -p ~/bin
 
 ln -s -f /usr/bin/google-chrome ~/bin/chrome
 mkdir -p ~/apps
+cd ~/apps
 
 #if [[ ! -e ~/apps/eclipse ]]; then
 #	wget "http://ftp.osuosl.org/pub/eclipse//technology/epp/downloads/release/kepler/SR2/eclipse-java-kepler-SR2-linux-gtk-x86_64.tar.gz" -O /tmp/eclipse.tar.gz
@@ -24,4 +25,14 @@ fi
 
 ln -s -f ~/apps/webstorm/bin/webstorm.sh ~/bin/webstorm
 
+# Apache maven
+if [[ ! -d apache-maven-3.2.5 ]]; then
+  curl -O http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
+  tar zxf apache-maven-3.2.5-bin.tar.gz
+  ln -s apache-maven-3.2.5 apache-maven
+fi
+
+mkdir -p ~/bin
+cd ~/bin
+ln -s -f ~/apps/apache-maven/bin/mvn
 

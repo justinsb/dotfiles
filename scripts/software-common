@@ -1,14 +1,4 @@
 #!/bin/bash -ex
 
-mkdir -p ~/apps
-cd ~/apps
-
-if [[ ! -d apache-maven-3.2.5 ]]; then
-  curl -O http://www.us.apache.org/dist/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
-  tar zxf apache-maven-3.2.5-bin.tar.gz
-  ln -s apache-maven-3.2.5 maven
-fi
-
-mkdir -p ~/bin
-cd ~/bin
-ln -s ~/apps/maven/bin/mvn
+# AWS CLI
+sudo pip install awscli

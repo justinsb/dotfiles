@@ -1,5 +1,9 @@
 export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
 
+if [[ -d /usr/local/go/bin ]]; then
+	export PATH=$PATH:/usr/local/go/bin
+fi
+
 export JAVA_HOME=$(/usr/libexec/java_home)
 
 if [ -f `brew --prefix`/etc/bash_completion ]; then

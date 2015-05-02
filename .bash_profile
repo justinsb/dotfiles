@@ -4,10 +4,14 @@ if [[ -d /usr/local/go/bin ]]; then
 	export PATH=$PATH:/usr/local/go/bin
 fi
 
-export JAVA_HOME=$(/usr/libexec/java_home)
+if [[ -f /usr/libexec/java_home ]]; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+fi
 
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-    . `brew --prefix`/etc/bash_completion
+if (which brew); then
+  if [ -f `brew --prefix`/etc/bash_completion ]; then
+      . `brew --prefix`/etc/bash_completion
+  fi
 fi
 
 #alias gco='git co'

@@ -20,7 +20,7 @@ apt-get install --yes vim
 apt-get install --yes pip || apt-get install --yes python-pip
 
 apt-get install --yes screen
-apt-get install --yes gdm3 || apt-get install --yes gdm
+apt-get install --yes lightdm
 apt-get install --yes gnome-terminal fonts-noto fonts-liberation
 apt-get install --yes x11-apps
 

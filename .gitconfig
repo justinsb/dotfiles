@@ -7,3 +7,5 @@
 	default = simple
 [gitreview]
 	username = justin-fathomdb
+[color]
+	ui = auto

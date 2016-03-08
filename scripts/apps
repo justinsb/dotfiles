@@ -6,14 +6,14 @@ ln -s -f /usr/bin/google-chrome ~/bin/chrome
 mkdir -p ~/apps
 cd ~/apps
 
-#if [[ ! -e ~/apps/eclipse ]]; then
-#	wget "http://ftp.osuosl.org/pub/eclipse//technology/epp/downloads/release/kepler/SR2/eclipse-java-kepler-SR2-linux-gtk-x86_64.tar.gz" -O /tmp/eclipse.tar.gz
-#
-#	cd ~/apps/
-#	tar zxf /tmp/eclipse.tar.gz
-#fi
-#
-#ln -s -f ~/apps/eclipse/eclipse ~/bin/eclipse
+if [[ ! -e ~/apps/eclipse ]]; then
+	wget "http://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release/kepler/SR2/eclipse-java-kepler-SR2-linux-gtk-x86_64.tar.gz" -O /tmp/eclipse.tar.gz
+
+	cd ~/apps/
+	tar zxf /tmp/eclipse.tar.gz
+fi
+
+ln -s -f ~/apps/eclipse/eclipse ~/bin/eclipse
 
 if [[ ! -e ~/apps/webstorm ]]; then
 	wget "http://download.jetbrains.com/webstorm/WebStorm-9.0.3.tar.gz" -O /tmp/webstorm.tar.gz
@@ -26,11 +26,11 @@ fi
 ln -s -f ~/apps/webstorm/bin/webstorm.sh ~/bin/webstorm
 
 # IntelliJ
-if [[ ! -e ~/apps/idea ]]; then
-	wget "https://download.jetbrains.com/idea/ideaIC-14.0.3.tar.gz" -O /tmp/intellij.tar.gz
+if [[ ! -e ~/apps/idea-IC-141.713.2 ]]; then
+	wget "https://download.jetbrains.com/idea/ideaIC-14.1.2.tar.gz" -O /tmp/intellij.tar.gz
 	cd ~/apps
 	tar zxf /tmp/intellij.tar.gz
-	ln -s idea-IC-139.1117.1 idea
+	ln -s idea-IC-141.713.2 idea
 	rm /tmp/intellij.tar.gz
 fi
 

@@ -2,6 +2,17 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+if [[ -f /usr/libexec/java_home ]]; then
+  export JAVA_HOME=$(/usr/libexec/java_home)
+fi
+
+if (which brew); then
+  if [ -f `brew --prefix`/etc/bash_completion ]; then
+      . `brew --prefix`/etc/bash_completion
+  fi
+fi
+
+
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -38,6 +49,7 @@ fi
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
     xterm-color) color_prompt=yes;;
+    xterm-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -61,7 +73,11 @@ if [ "$color_prompt" = yes ]; then
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
+
 unset color_prompt force_color_prompt
+
+export PS1='\w $(__git_ps1) > '
+
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -114,3 +130,9 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/justinsb/apps/google-cloud-sdk/path.bash.inc'
+
+# The next line enables bash completion for gcloud.
+source '/home/justinsb/apps/google-cloud-sdk/completion.bash.inc'

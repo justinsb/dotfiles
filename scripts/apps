@@ -26,13 +26,14 @@ fi
 ln -s -f ~/apps/webstorm/bin/webstorm.sh ~/bin/webstorm
 
 # IntelliJ
-if [[ ! -e ~/apps/idea-IC-141.713.2 ]]; then
-	wget "https://download.jetbrains.com/idea/ideaIC-14.1.2.tar.gz" -O /tmp/intellij.tar.gz
+if [[ ! -e ~/apps/idea-IC-145.258.11 ]]; then
+	wget "https://download.jetbrains.com/idea/ideaIC-2016.1.tar.gz" -O /tmp/intellij.tar.gz
 	cd ~/apps
 	tar zxf /tmp/intellij.tar.gz
-	ln -s idea-IC-141.713.2 idea
+	ln -s idea-IC-145.258.11 idea
 	rm /tmp/intellij.tar.gz
 fi
+
 
 ln -s -f ~/apps/idea/bin/idea.sh ~/bin/idea
 

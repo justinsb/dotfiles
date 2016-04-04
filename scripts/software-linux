@@ -22,6 +22,7 @@ apt-get install --yes pip || apt-get install --yes python-pip
 apt-get install --yes screen
 apt-get install --yes lightdm
 apt-get install --yes gnome-terminal fonts-noto fonts-droid fonts-liberation
+apt-get install --yes fonts-croscore fonts-crosextra-caladea fonts-crosextra-carlito
 apt-get install --yes x11-apps
 
 apt-get install --yes ant

@@ -107,6 +107,8 @@ alias l='ls -CF'
 
 alias gst='git status'
 
+alias k='kubectl'
+
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -131,8 +133,16 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# The next line updates PATH for the Google Cloud SDK.
-#source '/home/justinsb/apps/google-cloud-sdk/path.bash.inc'
-
 # The next line enables bash completion for gcloud.
 #source '/home/justinsb/apps/google-cloud-sdk/completion.bash.inc'
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/justinsb/google-cloud-sdk/path.bash.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/home/justinsb/google-cloud-sdk/completion.bash.inc'
+
+# go PATH
+export PATH=$PATH:/usr/local/go/bin
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

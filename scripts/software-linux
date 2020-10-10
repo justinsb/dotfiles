@@ -11,25 +11,29 @@ apt-get update
 
 apt-get install --yes sudo
 apt-get install --yes google-chrome-stable
-apt-get install --yes gedit
-apt-get install --yes git bzr mercurial
-apt-get install --yes awesome awesome-extra
-apt-get install --yes openjdk-7-jdk
+#apt-get install --yes gedit
+#apt-get install --yes git bzr mercurial
+#apt-get install --yes awesome awesome-extra
+#apt-get install --yes openjdk-7-jdk
 apt-get install --yes htop iftop
 apt-get install --yes vim
-apt-get install --yes pip || apt-get install --yes python-pip
+#apt-get install --yes pip || apt-get install --yes python-pip
 
-apt-get install --yes screen
-apt-get install --yes lightdm
-apt-get install --yes gnome-terminal fonts-noto fonts-droid fonts-liberation
+#apt-get install --yes screen
+#apt-get install --yes lightdm
+apt-get install --yes gnome-terminal fonts-noto fonts-liberation
 apt-get install --yes fonts-croscore fonts-crosextra-caladea fonts-crosextra-carlito
-apt-get install --yes x11-apps
+#apt-get install --yes x11-apps
 
-apt-get install --yes ant
+#apt-get install --yes ant
 
-if [[ ! -e /usr/local/go ]]; then
-	wget "https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz" -O /tmp/go.tar.gz
-	tar -C /usr/local -xzf /tmp/go.tar.gz
-fi
+apt-get install emacs --no-install-recommends
+
+
+
+#if [[ ! -e /usr/local/go ]]; then
+#	wget "https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz" -O /tmp/go.tar.gz
+#	tar -C /usr/local -xzf /tmp/go.tar.gz
+#fi
 
 

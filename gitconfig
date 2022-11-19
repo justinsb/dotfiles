@@ -1,0 +1,13 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = justinsb
+	email = justinsb@google.com
+[alias]
+	co = checkout
+[rebase]
+	autosquash = true
+[pull]
+	ff = only
+[init]
+	defaultBranch = main

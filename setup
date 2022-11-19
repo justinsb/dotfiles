@@ -5,3 +5,10 @@ set -x
 
 cp bash_aliases ~/.bash_aliases
 cp gitconfig ~/.gitconfig
+
+mkdir -p ~/bin/
+export PATH=~/bin:$PATH
+
+wget https://github.com/cli/cli/releases/download/v2.20.2/gh_2.20.2_linux_amd64.tar.gz
+tar xvf gh_2.20.2_linux_amd64.tar.gz gh_2.20.2_linux_amd64/bin/gh
+mv gh_2.20.2_linux_amd64/bin/gh ~/bin/

@@ -9,6 +9,7 @@ cp gitconfig ~/.gitconfig
 mkdir -p ~/bin/
 export PATH=~/bin:$PATH
 
-wget https://github.com/cli/cli/releases/download/v2.20.2/gh_2.20.2_linux_amd64.tar.gz
-tar xvf gh_2.20.2_linux_amd64.tar.gz gh_2.20.2_linux_amd64/bin/gh
-mv gh_2.20.2_linux_amd64/bin/gh ~/bin/
+wget https://github.com/cli/cli/releases/download/v2.21.2/gh_2.21.2_linux_amd64.tar.gz -O gh.tar.gz
+tar xvf gh.tar.gz --wildcards --strip-components=2 "*/bin/gh"
+mv gh ~/bin/
+rm gh.tar.gz

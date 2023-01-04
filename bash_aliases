@@ -12,4 +12,7 @@ alias toc='src toc'
 declare -x EDITOR="emacs"
 declare -x PS1="\\[\\e]0;\\u@\\h: \\w\\a\\]\\[\\033[01;34m\\]\\w \$(__git_ps1) \\[\\033[00m\\]> "
 
+source <(kubectl completion bash)
+complete -o default -F __start_kubectl k
+
 export PATH=~/bin:$PATH

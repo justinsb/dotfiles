@@ -9,7 +9,27 @@ cp gitconfig ~/.gitconfig
 mkdir -p ~/bin/
 export PATH=~/bin:$PATH
 
-wget https://github.com/cli/cli/releases/download/v2.24.3/gh_2.24.3_linux_amd64.tar.gz -O gh.tar.gz
-tar xvf gh.tar.gz --wildcards --strip-components=2 "*/bin/gh"
-mv gh ~/bin/
-rm gh.tar.gz
+VERSION=2.24.3
+if [[ ! -d "~/apps/gh/${VERSION}" ]]; then
+  wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_linux_amd64.tar.gz -O gh.tar.gz
+  rm -f ~/apps/gh/latest
+  rm -rf ~/apps/gh/${VERSION}
+  mkdir -p ~/apps/gh/${VERSION}
+  tar -C ~/apps/gh/${VERSION} -x -v --strip-components=1 -f gh.tar.gz
+  ln -sf  ~/apps/gh/${VERSION}/ ~/apps/gh/latest
+  ln -sf ~/apps/gh/latest/bin/gh ~/bin/gh
+  rm gh.tar.gz
+fi
+
+
+VERSION=1.20.2
+if [[ ! -d "~/apps/go/${VERSION}" ]]; then
+  wget https://go.dev/dl/go${VERSION}.linux-amd64.tar.gz -O go.tar.gz
+  rm -rf ~/apps/go/latest
+  rm -rf ~/apps/go/${VERSION}
+  mkdir -p ~/apps/go/${VERSION}
+  tar -C ~/apps/go/${VERSION} -x -v -f go.tar.gz
+  ln -sf  ~/apps/go/${VERSION}/ ~/apps/go/latest
+  ln -sf ~/apps/go/latest/go/bin/go ~/bin/go
+  rm go.tar.gz
+fi

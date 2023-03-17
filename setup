@@ -47,3 +47,16 @@ if [[ ! -d "~/apps/helm/${VERSION}" ]]; then
   ln -sf ~/apps/helm/latest/helm ~/bin/helm
   rm helm.tar.gz
 fi
+
+
+# kOps
+VERSION=1.26.2
+if [[ ! -d "~/apps/kops/${VERSION}" ]]; then
+  rm -rf ~/apps/kops/latest
+  rm -rf ~/apps/kops/${VERSION}
+  mkdir -p ~/apps/kops/${VERSION}
+  wget https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-linux-amd64 -O ~/apps/kops/${VERSION}/kops
+  chmod +x ~/apps/kops/${VERSION}/kops
+  ln -sf  ~/apps/kops/${VERSION}/ ~/apps/kops/latest
+  ln -sf ~/apps/kops/latest/kops ~/bin/kops
+fi

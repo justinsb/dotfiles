@@ -60,3 +60,15 @@ if [[ ! -d "~/apps/kops/${VERSION}" ]]; then
   ln -sf  ~/apps/kops/${VERSION}/ ~/apps/kops/latest
   ln -sf ~/apps/kops/latest/kops ~/bin/kops
 fi
+
+# kubectl
+VERSION=1.26.2
+if [[ ! -d "~/apps/kubectl/${VERSION}" ]]; then
+  rm -rf ~/apps/kubectl/latest
+  rm -rf ~/apps/kubectl/${VERSION}
+  mkdir -p ~/apps/kubectl/${VERSION}
+  wget https://dl.k8s.io/release/v${VERSION}/bin/linux/amd64/kubectl -O ~/apps/kubectl/${VERSION}/kubectl
+  chmod +x ~/apps/kubectl/${VERSION}/kubectl
+  ln -sf  ~/apps/kubectl/${VERSION}/ ~/apps/kubectl/latest
+  ln -sf ~/apps/kubectl/latest/kubectl ~/bin/kubectl
+fi

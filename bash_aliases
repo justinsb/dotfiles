@@ -10,5 +10,5 @@ alias toc='src toc'
 
 # This is an abuse, but bootstrapping is not working well, so we source profile here
 if [[ -f ~/.profile ]]; then
-  ~/.profile
+  . ~/.profile
 fi

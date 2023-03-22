@@ -12,7 +12,7 @@ export PATH=~/bin:$PATH
 
 # GH CLI
 VERSION=2.24.3
-if [[ ! -d "~/apps/gh/${VERSION}" ]]; then
+if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
   wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_linux_amd64.tar.gz -O gh.tar.gz
   rm -f ~/apps/gh/latest
   rm -rf ~/apps/gh/${VERSION}
@@ -25,7 +25,7 @@ fi
 
 # Go
 VERSION=1.20.2
-if [[ ! -d "~/apps/go/${VERSION}" ]]; then
+if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
   wget https://go.dev/dl/go${VERSION}.linux-amd64.tar.gz -O go.tar.gz
   rm -rf ~/apps/go/latest
   rm -rf ~/apps/go/${VERSION}
@@ -38,7 +38,7 @@ fi
 
 # Helm
 VERSION=3.11.2
-if [[ ! -d "~/apps/helm/${VERSION}" ]]; then
+if [[ ! -d "${HOME}/apps/helm/${VERSION}" ]]; then
   wget https://get.helm.sh/helm-v${VERSION}-linux-amd64.tar.gz -O helm.tar.gz
   rm -rf ~/apps/helm/latest
   rm -rf ~/apps/helm/${VERSION}
@@ -52,7 +52,7 @@ fi
 
 # kOps
 VERSION=1.26.2
-if [[ ! -d "~/apps/kops/${VERSION}" ]]; then
+if [[ ! -d "${HOME}/apps/kops/${VERSION}" ]]; then
   rm -rf ~/apps/kops/latest
   rm -rf ~/apps/kops/${VERSION}
   mkdir -p ~/apps/kops/${VERSION}
@@ -64,7 +64,7 @@ fi
 
 # kubectl
 VERSION=1.26.2
-if [[ ! -d "~/apps/kubectl/${VERSION}" ]]; then
+if [[ ! -d "${HOME}/apps/kubectl/${VERSION}" ]]; then
   rm -rf ~/apps/kubectl/latest
   rm -rf ~/apps/kubectl/${VERSION}
   mkdir -p ~/apps/kubectl/${VERSION}

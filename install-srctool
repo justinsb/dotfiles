@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+set -x
+
+mkdir -p ~/bin/
+
+mkdir -p ~/apps/srctool
+pushd ~/apps/srctool
+if [[ ! -d srctool ]]; then
+  git clone https://github.com/justinsb/srctool
+  cd srctool
+else
+  cd srctool
+  git pull
+fi
+go build -o ~/bin/src .
+popd

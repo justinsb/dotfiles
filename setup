@@ -72,3 +72,5 @@ if [[ ! -d "~/apps/kubectl/${VERSION}" ]]; then
   ln -sf  ~/apps/kubectl/${VERSION}/ ~/apps/kubectl/latest
   ln -sf ~/apps/kubectl/latest/kubectl ~/bin/kubectl
 fi
+
+./install-srctool

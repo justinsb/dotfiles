@@ -4,6 +4,7 @@ set -e
 set -x
 
 cp bash_aliases ~/.bash_aliases
+cp profile ~/.profile
 cp gitconfig ~/.gitconfig
 
 mkdir -p ~/bin/

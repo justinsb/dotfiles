@@ -139,6 +139,8 @@ export PROMPT_DIRTRIM=4
 
 
 
+# Ensure bin is part of path
+export PATH=~/bin:$PATH
 
 # Auto completion
 if [[ $(type -P kubectl) ]]; then

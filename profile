@@ -17,23 +17,11 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set PATH so it includes user's private bin if it exists
-# if [ -d "$HOME/bin" ] ; then
-#     PATH="$HOME/bin:$PATH"
-# fi
-# Always include ~/bin, even if it doesn't exist yet
-PATH="$HOME/bin:$PATH"
+if [ -d "$HOME/bin" ] ; then
+   PATH="$HOME/bin:$PATH"
+fi
 
 # set PATH so it includes user's private bin if it exists
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
-
-# Auto completion
-if [[ $(type -P kubectl) ]]; then
-  source <(kubectl completion bash)
-  complete -o default -F __start_kubectl k
-fi
-
-# Env vars
-export GITHUB_USER=justinsb
-declare -x PS1="\\[\\e]0;\\u@\\h: \\w\\a\\]\\[\\033[01;34m\\]\\w \$(__git_ps1) \\[\\033[00m\\]> "

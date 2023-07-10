@@ -151,3 +151,7 @@ fi
 # Env vars
 export GITHUB_USER=justinsb
 declare -x PS1="\\[\\e]0;\\u@\\h: \\w\\a\\]\\[\\033[01;34m\\]\\w \$(__git_ps1) \\[\\033[00m\\]> "
+
+export EDITOR="emacs -nw"
+
+export PROMPT_COMMAND='history -a'

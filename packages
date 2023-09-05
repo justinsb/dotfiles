@@ -4,5 +4,5 @@ set -e
 set -x
 
 apt update
-apt install --yes --no-install-recommends git bash-completion
+apt install --yes --no-install-recommends git bash-completion make
 #apt install --yes --no-install-recommends emacs

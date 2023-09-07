@@ -65,6 +65,20 @@ if [[ ! -d "${HOME}/apps/helm/${VERSION}" ]]; then
   rm helm.tar.gz
 fi
 
+# crane / gcrane
+VERSION=0.16.1
+if [[ ! -d "${HOME}/apps/crane/${VERSION}" ]]; then
+  rm -rf ~/apps/crane/latest
+  rm -rf ~/apps/crane/${VERSION}
+  mkdir -p ~/apps/crane/${VERSION}
+  pushd ~/apps/crane/${VERSION}
+  GOBIN=~/apps/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/crane@v${VERSION}
+  GOBIN=~/apps/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/gcrane@v${VERSION}
+  popd
+  ln -sf  ~/apps/crane/${VERSION}/ ~/apps/crane/latest
+  ln -sf ~/apps/crane/latest/crane ~/bin/crane
+  ln -sf ~/apps/crane/latest/gcrane ~/bin/gcrane
+fi
 
 # kOps
 kops_versions=( "1.26.2" )

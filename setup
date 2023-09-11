@@ -80,6 +80,19 @@ if [[ ! -d "${HOME}/apps/crane/${VERSION}" ]]; then
   ln -sf ~/apps/crane/latest/gcrane ~/bin/gcrane
 fi
 
+# kind
+VERSION=0.20.0
+if [[ ! -d "${HOME}/apps/kind/${VERSION}" ]]; then
+  rm -rf ~/apps/kind/latest
+  rm -rf ~/apps/kind/${VERSION}
+  mkdir -p ~/apps/kind/${VERSION}
+  pushd ~/apps/kind/${VERSION}
+  GOBIN=~/apps/kind/${VERSION}/ go install sigs.k8s.io/kind/cmd/kind@v${VERSION}
+  popd
+  ln -sf  ~/apps/kind/${VERSION}/ ~/apps/kind/latest
+  ln -sf ~/apps/kind/latest/kind ~/bin/kind
+fi
+
 # kOps
 kops_versions=( "1.26.2" )
 for VERSION in "${kops_versions[@]}"; do

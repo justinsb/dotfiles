@@ -119,4 +119,17 @@ if [[ ! -d "${HOME}/apps/kubectl/${VERSION}" ]]; then
   ln -sf ~/apps/kubectl/latest/kubectl ~/bin/kubectl
 fi
 
+# stern
+VERSION=1.26.0
+if [[ ! -d "${HOME}/apps/stern/${VERSION}" ]]; then
+  rm -rf ~/apps/stern/latest
+  rm -rf ~/apps/stern/${VERSION}
+  mkdir -p ~/apps/stern/${VERSION}
+  pushd ~/apps/stern/${VERSION}
+  GOBIN=~/apps/stern/${VERSION}/ go install github.com/stern/stern@v${VERSION}
+  popd
+  ln -sf  ~/apps/stern/${VERSION}/ ~/apps/stern/latest
+  ln -sf ~/apps/stern/latest/stern ~/bin/stern
+fi
+
 ./install-srctool

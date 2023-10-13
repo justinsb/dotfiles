@@ -108,7 +108,7 @@ for VERSION in "${kops_versions[@]}"; do
 done
 
 # kubectl
-VERSION=1.26.2
+VERSION=1.28.2
 if [[ ! -d "${HOME}/apps/kubectl/${VERSION}" ]]; then
   rm -rf ~/apps/kubectl/latest
   rm -rf ~/apps/kubectl/${VERSION}

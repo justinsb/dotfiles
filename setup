@@ -132,4 +132,13 @@ if [[ ! -d "${HOME}/apps/stern/${VERSION}" ]]; then
   ln -sf ~/apps/stern/latest/stern ~/bin/stern
 fi
 
+# Only on stock debian
+if grep 'BUG_REPORT_URL.*debian' /etc/os-release; then
+  mkdir -p ~/.config/systemd/user
+  cp systemd/*.service ~/.config/systemd/user/
+
+  systemctl --user enable ssh-agent
+  systemctl --user start ssh-agent
+fi
+
 ./install-srctool

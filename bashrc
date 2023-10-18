@@ -155,3 +155,8 @@ declare -x PS1="\\[\\e]0;\\u@\\h: \\w\\a\\]\\[\\033[01;34m\\]\\w \$(__git_ps1) \
 export EDITOR="emacs -nw"
 
 export PROMPT_COMMAND='history -a'
+
+# Only on stock debian
+if grep 'BUG_REPORT_URL.*debian' /etc/os-release; then
+  export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+fi

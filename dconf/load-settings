@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+set -x
+
+cat org.gnome.desktop.wm.keybindings | dconf load /org/gnome/desktop/wm/keybindings/
+cat org.gnome.desktop.interface | dconf load /org/gnome/desktop/interface/
+cat org.gnome.mutter.keybindings | dconf load /org/gnome/mutter/keybindings/

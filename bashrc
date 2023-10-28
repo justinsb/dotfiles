@@ -157,6 +157,6 @@ export EDITOR="emacs -nw"
 export PROMPT_COMMAND='history -a'
 
 # Only on stock debian
-if grep 'BUG_REPORT_URL.*debian' /etc/os-release; then
+if grep 'BUG_REPORT_URL.*debian' /etc/os-release > /dev/null; then
   export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 fi

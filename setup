@@ -34,6 +34,7 @@ if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
   tar -C ~/apps/go/${VERSION} -x -v -f go.tar.gz
   ln -sf  ~/apps/go/${VERSION}/ ~/apps/go/latest
   ln -sf ~/apps/go/latest/go/bin/go ~/bin/go
+  ln -sf ~/apps/go/latest/go/bin/gofmt ~/bin/gofmt
   rm go.tar.gz
 fi
 

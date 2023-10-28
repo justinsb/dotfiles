@@ -4,6 +4,6 @@ set -e
 set -x
 
 dconf dump /org/gnome/desktop/wm/keybindings/ > org.gnome.desktop.wm.keybindings
+dconf dump /org/gnome/desktop/input-sources/ > org.gnome.desktop.input-sources
 dconf dump /org/gnome/desktop/interface/ > org.gnome.desktop.interface
 dconf dump /org/gnome/mutter/keybindings/ > org.gnome.mutter.keybindings
-

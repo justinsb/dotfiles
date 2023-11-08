@@ -6,3 +6,4 @@ set -x
 apt update
 apt install --yes --no-install-recommends git bash-completion make
 #apt install --yes --no-install-recommends emacs
+apt install --yes --no-install-recommends xclip # For pbcopy like functionality

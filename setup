@@ -12,7 +12,7 @@ mkdir -p ~/bin/
 export PATH=~/bin:$PATH
 
 # GH CLI
-VERSION=2.24.3
+VERSION=2.49.1
 if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
   wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_linux_amd64.tar.gz -O gh.tar.gz
   rm -f ~/apps/gh/latest

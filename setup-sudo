@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+set -x
+
+mkdir -p /etc/sysctl.d/
+
+cat > /etc/sysctl.d/vscode.conf <<EOF
+# Increase watches for vscode
+# https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc
+fs.inotify.max_user_watches=524288
+EOF
+
+sysctl --system
+

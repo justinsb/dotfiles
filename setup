@@ -11,23 +11,19 @@ cp gitconfig ~/.gitconfig
 mkdir -p ~/bin/
 export PATH=~/bin:$PATH
 
-# GH CLI
-VERSION=2.51.0
-if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
-  wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_linux_amd64.tar.gz -O gh.tar.gz
-  rm -f ~/apps/gh/latest
-  rm -rf ~/apps/gh/${VERSION}
-  mkdir -p ~/apps/gh/${VERSION}
-  tar -C ~/apps/gh/${VERSION} -x -v --strip-components=1 -f gh.tar.gz
-  ln -sf  ~/apps/gh/${VERSION}/ ~/apps/gh/latest
-  ln -sf ~/apps/gh/latest/bin/gh ~/bin/gh
-  rm gh.tar.gz
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
 fi
 
 # Go
 VERSION=1.23.2
 if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
-  wget https://go.dev/dl/go${VERSION}.linux-amd64.tar.gz -O go.tar.gz
+  wget https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz -O go.tar.gz
   rm -rf ~/apps/go/latest
   rm -rf ~/apps/go/${VERSION}
   mkdir -p ~/apps/go/${VERSION}
@@ -37,6 +33,21 @@ if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
   ln -sf ~/apps/go/latest/go/bin/gofmt ~/bin/gofmt
   rm go.tar.gz
 fi
+
+# GH CLI
+VERSION=2.51.0
+if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
+  #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
+  rm -f ~/apps/gh/latest
+  rm -rf ~/apps/gh/${VERSION}
+  mkdir -p ~/apps/gh/${VERSION}
+  GOBIN=~/apps/gh/${VERSION}/ go install github.com/cli/cli/v2/cmd/gh@v${VERSION}
+  #tar -C ~/apps/gh/${VERSION} -x -v --strip-components=1 -f gh.tar.gz
+  ln -sf  ~/apps/gh/${VERSION}/ ~/apps/gh/latest
+  ln -sf ~/apps/gh/latest/gh ~/bin/gh
+  #rm gh.tar.gz
+fi
+
 
 # kustomize
 VERSION=5.2.1
@@ -58,7 +69,7 @@ if [[ ! -d "${HOME}/apps/terraform/${VERSION}" ]]; then
   rm -rf ~/apps/terraform/${VERSION}
   mkdir -p ~/apps/terraform/${VERSION}
   pushd ~/apps/terraform/${VERSION}
-  wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_linux_amd64.zip -O terraform.zip
+  wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_${OS}_${ARCH}.zip -O terraform.zip
   unzip terraform.zip
   rm terraform.zip
   popd
@@ -69,7 +80,7 @@ fi
 # Helm
 VERSION=3.11.2
 if [[ ! -d "${HOME}/apps/helm/${VERSION}" ]]; then
-  wget https://get.helm.sh/helm-v${VERSION}-linux-amd64.tar.gz -O helm.tar.gz
+  wget https://get.helm.sh/helm-v${VERSION}-${OS}-${ARCH}.tar.gz -O helm.tar.gz
   rm -rf ~/apps/helm/latest
   rm -rf ~/apps/helm/${VERSION}
   mkdir -p ~/apps/helm/${VERSION}
@@ -114,7 +125,7 @@ for VERSION in "${kops_versions[@]}"; do
     #rm -rf ~/apps/kops/latest
     rm -rf ~/apps/kops/${VERSION}
     mkdir -p ~/apps/kops/${VERSION}
-    wget https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-linux-amd64 -O ~/apps/kops/${VERSION}/kops
+    wget https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-${OS}-${ARCH} -O ~/apps/kops/${VERSION}/kops
     chmod +x ~/apps/kops/${VERSION}/kops
     #ln -sf  ~/apps/kops/${VERSION}/ ~/apps/kops/latest
     ln -sf ~/apps/kops/${VERSION}/kops ~/bin/kops-${VERSION}
@@ -127,7 +138,7 @@ if [[ ! -d "${HOME}/apps/kubectl/${VERSION}" ]]; then
   rm -rf ~/apps/kubectl/latest
   rm -rf ~/apps/kubectl/${VERSION}
   mkdir -p ~/apps/kubectl/${VERSION}
-  wget https://dl.k8s.io/release/v${VERSION}/bin/linux/amd64/kubectl -O ~/apps/kubectl/${VERSION}/kubectl
+  wget https://dl.k8s.io/release/v${VERSION}/bin/${OS}/${ARCH}/kubectl -O ~/apps/kubectl/${VERSION}/kubectl
   chmod +x ~/apps/kubectl/${VERSION}/kubectl
   ln -sf  ~/apps/kubectl/${VERSION}/ ~/apps/kubectl/latest
   ln -sf ~/apps/kubectl/latest/kubectl ~/bin/kubectl

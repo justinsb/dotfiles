@@ -21,7 +21,7 @@ elif [[ "${OS}" == "Darwin" ]]; then
 fi
 
 # Go
-VERSION=1.23.2
+VERSION=1.23.4
 if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
   wget https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz -O go.tar.gz
   rm -rf ~/apps/go/latest

@@ -168,7 +168,7 @@ if [[ ! -d "${HOME}/apps/awscli/${VERSION}" ]]; then
   rm -rf ~/apps/awscli/${VERSION}
   mkdir -p ~/apps/awscli/${VERSION}
   pushd ~/apps/awscli/${VERSION}
-  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${VERSION}.zip" -o "awscliv2.zip"
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${VERSION}.zip" -o "awscli.zip"
   unzip awscli.zip
   popd
   ln -sf  ~/apps/awscli/${VERSION}/ ~/apps/awscli/latest

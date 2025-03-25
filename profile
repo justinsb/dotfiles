@@ -25,3 +25,8 @@ fi
 if [ -d "$HOME/.local/bin" ] ; then
     PATH="$HOME/.local/bin:$PATH"
 fi
+
+# set PATH so it includes user's krew bin if it exists
+if [ -d "$HOME/.krew/bin" ] ; then
+    PATH="$HOME/.krew/bin:$PATH"
+fi

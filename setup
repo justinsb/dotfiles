@@ -39,7 +39,7 @@ if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
 fi
 
 # GH CLI
-VERSION=2.51.0
+VERSION=2.76.0
 if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
   #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
   rm -f ~/apps/gh/latest

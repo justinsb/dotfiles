@@ -24,10 +24,18 @@ if [[ "${ARCH}" == "x86_64" ]]; then
   ARCH=amd64
 fi
 
+
+download_file() {
+  # Usage: download_file <url> <output_file>
+  local url="$1"
+  local output="$2"
+  curl -L --fail "$url" -o "$output"
+}
+
 # Go
 VERSION=1.24.5
 if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
-  wget https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz -O go.tar.gz
+  download_file "https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz" "go.tar.gz"
   rm -rf ~/apps/go/latest
   rm -rf ~/apps/go/${VERSION}
   mkdir -p ~/apps/go/${VERSION}
@@ -73,7 +81,7 @@ if [[ ! -d "${HOME}/apps/terraform/${VERSION}" ]]; then
   rm -rf ~/apps/terraform/${VERSION}
   mkdir -p ~/apps/terraform/${VERSION}
   pushd ~/apps/terraform/${VERSION}
-  wget https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_${OS}_${ARCH}.zip -O terraform.zip
+  download_file "https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_${OS}_${ARCH}.zip" "terraform.zip"
   unzip terraform.zip
   rm terraform.zip
   popd
@@ -84,7 +92,7 @@ fi
 # Helm
 VERSION=3.11.2
 if [[ ! -d "${HOME}/apps/helm/${VERSION}" ]]; then
-  wget https://get.helm.sh/helm-v${VERSION}-${OS}-${ARCH}.tar.gz -O helm.tar.gz
+  download_file "https://get.helm.sh/helm-v${VERSION}-${OS}-${ARCH}.tar.gz" "helm.tar.gz"
   rm -rf ~/apps/helm/latest
   rm -rf ~/apps/helm/${VERSION}
   mkdir -p ~/apps/helm/${VERSION}
@@ -129,7 +137,7 @@ for VERSION in "${kops_versions[@]}"; do
     #rm -rf ~/apps/kops/latest
     rm -rf ~/apps/kops/${VERSION}
     mkdir -p ~/apps/kops/${VERSION}
-    wget https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-${OS}-${ARCH} -O ~/apps/kops/${VERSION}/kops
+    download_file https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-${OS}-${ARCH} ~/apps/kops/${VERSION}/kops
     chmod +x ~/apps/kops/${VERSION}/kops
     #ln -sf  ~/apps/kops/${VERSION}/ ~/apps/kops/latest
     ln -sf ~/apps/kops/${VERSION}/kops ~/bin/kops-${VERSION}
@@ -142,7 +150,7 @@ if [[ ! -d "${HOME}/apps/kubectl/${VERSION}" ]]; then
   rm -rf ~/apps/kubectl/latest
   rm -rf ~/apps/kubectl/${VERSION}
   mkdir -p ~/apps/kubectl/${VERSION}
-  wget https://dl.k8s.io/release/v${VERSION}/bin/${OS}/${ARCH}/kubectl -O ~/apps/kubectl/${VERSION}/kubectl
+  download_file "https://dl.k8s.io/release/v${VERSION}/bin/${OS}/${ARCH}/kubectl" "~/apps/kubectl/${VERSION}/kubectl"
   chmod +x ~/apps/kubectl/${VERSION}/kubectl
   ln -sf  ~/apps/kubectl/${VERSION}/ ~/apps/kubectl/latest
   ln -sf ~/apps/kubectl/latest/kubectl ~/bin/kubectl

@@ -47,7 +47,7 @@ if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
 fi
 
 # GH CLI
-VERSION=2.76.0
+VERSION=2.76.2
 if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
   #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
   rm -f ~/apps/gh/latest
@@ -192,4 +192,22 @@ if grep 'BUG_REPORT_URL.*debian' /etc/os-release; then
   systemctl --user start ssh-agent
 fi
 
+# Only on MacOS
+if [[ "${OS}" == "darwin" ]]; then
+  if ( ! which gcloud ); then
+    mkdir -p ~/apps/gcloud
+    pushd ~/apps/gcloud
+    gcloud_arch=${ARGH}
+    if [[ "${ARCH}" == "arm64" ]]; then
+      gcloud_arch="arm"
+    fi
+    download_file "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${OS}-${gcloud_arch}.tar.gz" "google-cloud-cli.tar.gz"
+    tar -zxf google-cloud-cli.tar.gz --strip-components=1
+    rm google-cloud-cli.tar.gz
+    ./install.sh --quiet --command-completion=true --path-update=true --usage-reporting=false --rc-path=${HOME}/.bashrc --install-python=true
+    popd
+  fi
+fi
+
+# Install src tool
 ./install-srctool

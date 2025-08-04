@@ -205,8 +205,11 @@ if [[ "${OS}" == "darwin" ]]; then
     download_file "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-${OS}-${gcloud_arch}.tar.gz" "google-cloud-cli.tar.gz"
     tar -zxf google-cloud-cli.tar.gz --strip-components=1
     rm google-cloud-cli.tar.gz
-    ./install.sh --quiet --command-completion=true --path-update=true --usage-reporting=false --rc-path=${HOME}/.bashrc --install-python=true
+    ./install.sh --quiet --command-completion=true --path-update=true --usage-reporting=false --install-python=true
     popd
+    ln -sf ~/apps/gcloud/google-cloud-sdk/bin/gcloud ~/bin/gcloud
+    ln -sf ~/apps/gcloud/google-cloud-sdk/bin/bq ~/bin/bq
+    ln -sf ~/apps/gcloud/google-cloud-sdk/bin/gsutil ~/bin/gsutil
   fi
 fi
 

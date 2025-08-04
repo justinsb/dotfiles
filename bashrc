@@ -167,3 +167,10 @@ if [[ -f /etc/os-release ]]; then
     export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
   fi
 fi
+
+# Load git completion and prompt scripts
+if [[ -f ~/dotfiles/git/git-completion.bash ]]; then
+    # Ensure git completion is sourced
+   source ~/dotfiles/git/git-completion.bash
+   source ~/dotfiles/git/git-prompt.sh
+fi

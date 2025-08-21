@@ -154,7 +154,7 @@ export GITHUB_USER=justinsb
 declare -x PS1="\\[\\e]0;\\u@\\h: \\w\\a\\]\\[\\033[01;34m\\]\\w \$(__git_ps1) \\[\\033[00m\\]> "
 
 if (which code > /dev/null 2> /dev/null); then
-  export EDITOR="code --wait --new-window"
+  export EDITOR="code --wait"
 else
   export EDITOR="emacs -nw"
 fi

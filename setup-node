@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import os
+import platform
+import shutil
+import subprocess
+
+def download_node(version, target_dir):
+    arch = platform.machine()
+    if arch == "x86_64":
+        arch = "x64"
+    os_name = platform.system()
+    if os_name == "Linux":
+        os_name = "linux"
+    elif os_name == "Darwin":
+        os_name = "darwin"
+    url = f"https://nodejs.org/dist/v{version}/node-v{version}-{os_name}-{arch}.tar.xz"
+    tarball = f"nodejs-{version}.tar.xz"
+    subprocess.run(["wget", url, "-O", tarball], check=True)
+    extract_node(tarball, target_dir)
+    os.remove(tarball)
+    return tarball
+
+def extract_node(tarball, target_dir):
+    if os.path.exists(target_dir):
+        shutil.rmtree(target_dir)
+    os.makedirs(target_dir, exist_ok=True)
+    subprocess.run([
+        "tar", "-C", target_dir, "-x", "-v", "--strip-components=1", "-f", tarball
+    ], check=True)
+
+def setup_symlinks(version, home):
+    latest = os.path.join(home, "apps/nodejs/latest")
+    if os.path.islink(latest):
+        os.unlink(latest)
+    os.symlink(os.path.join(home, f"apps/nodejs/{version}"), latest)
+
+    node_bin = os.path.join(latest, "bin/node")
+    user_bin = os.path.join(home, "bin/node")
+    if os.path.islink(user_bin):
+        os.unlink(user_bin)
+    os.symlink(node_bin, user_bin)
+
+    node_bin = os.path.join(latest, "bin/npm")
+    user_bin = os.path.join(home, "bin/npm")
+    if os.path.islink(user_bin):
+        os.unlink(user_bin)
+    os.symlink(node_bin, user_bin)
+
+def main():
+    version = "22.18.0"
+    home = os.path.expanduser("~")
+    node_dir = os.path.join(home, f"apps/nodejs/{version}")
+    if not os.path.isdir(node_dir):
+        os.chdir(home)
+        download_node(version, node_dir)
+    setup_symlinks(version, home)
+
+if __name__ == "__main__":
+    main()

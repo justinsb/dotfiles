@@ -33,7 +33,7 @@ download_file() {
 }
 
 # Go
-VERSION=1.24.5
+VERSION=1.25.1
 if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
   download_file "https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz" "go.tar.gz"
   rm -rf ~/apps/go/latest
@@ -118,7 +118,7 @@ if [[ ! -d "${HOME}/apps/crane/${VERSION}" ]]; then
 fi
 
 # kind
-VERSION=0.20.0
+VERSION=0.29.0
 if [[ ! -d "${HOME}/apps/kind/${VERSION}" ]]; then
   rm -rf ~/apps/kind/latest
   rm -rf ~/apps/kind/${VERSION}

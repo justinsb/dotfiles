@@ -10,5 +10,13 @@ def main():
     # Just run npm install -g @google/gemini-cli
     subprocess.run(["npm", "install", "-g", "@google/gemini-cli"], check=True)
 
+    # Symlink ./apps/nodejs/latest/bin/gemini to ~/.local/bin/gemini
+    home = os.path.expanduser("~")
+    gemini_src = os.path.join(home, ".local/apps/nodejs/latest/bin/gemini")
+    gemini_dst = os.path.join(home, ".local/bin/gemini")
+    if os.path.islink(gemini_dst):
+        os.unlink(gemini_dst)
+    os.symlink(gemini_src, gemini_dst)
+
 if __name__ == "__main__":
     main()

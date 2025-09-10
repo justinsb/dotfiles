@@ -30,3 +30,8 @@ fi
 if [ -d "$HOME/.krew/bin" ] ; then
     PATH="$HOME/.krew/bin:$PATH"
 fi
+
+# source ~/.local/env if present
+if [ -f "$HOME/.local/env" ] ; then
+    . "$HOME/.local/env"
+fi

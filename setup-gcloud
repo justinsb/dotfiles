@@ -41,7 +41,7 @@ def setup_symlinks(version, home):
         os.unlink(latest)
     os.symlink(os.path.join(apps_dir, f"gcloud/{version}"), latest)
 
-    for bin in 'gcloud', 'gsutil', 'bq', 'docker-credential-gcloud':
+    for bin in 'gcloud', 'gsutil', 'bq', 'docker-credential-gcloud', 'gke-gcloud-auth-plugin':
         gcloud_bin = os.path.join(latest, f"bin/{bin}")
         user_bin = os.path.join(bin_dir, f"{bin}")
         if os.path.islink(user_bin):
@@ -55,6 +55,9 @@ def main():
     if not os.path.isdir(gcloud_dir):
         download_gcloud(version, gcloud_dir)
     setup_symlinks(version, apps_dir)
+
+    # Install gke-gcloud-auth-plugin
+    subprocess.run(["gcloud", "components", "install", "gke-gcloud-auth-plugin"], check=True)
 
 if __name__ == "__main__":
     main()

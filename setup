@@ -9,7 +9,7 @@ ln -sf $(pwd)/bash_profile ~/.bash_profile
 ln -sf $(pwd)/profile ~/.profile
 ln -sf $(pwd)/gitconfig ~/.gitconfig
 
-mkdir -p ~/bin/
+mkdir -p ${BIN}/
 export PATH=~/bin:$PATH
 
 ARCH=$(uname -m)
@@ -25,6 +25,11 @@ if [[ "${ARCH}" == "x86_64" ]]; then
   ARCH=amd64
 fi
 
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
 
 download_file() {
   # Usage: download_file <url> <output_file>
@@ -37,13 +42,13 @@ download_file() {
 VERSION=1.25.1
 if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
   download_file "https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz" "go.tar.gz"
-  rm -rf ~/apps/go/latest
-  rm -rf ~/apps/go/${VERSION}
-  mkdir -p ~/apps/go/${VERSION}
-  tar -C ~/apps/go/${VERSION} -x -v -f go.tar.gz
-  ln -sf  ~/apps/go/${VERSION}/ ~/apps/go/latest
-  ln -sf ~/apps/go/latest/go/bin/go ~/bin/go
-  ln -sf ~/apps/go/latest/go/bin/gofmt ~/bin/gofmt
+  rm -rf ${APPS}/go/latest
+  rm -rf ${APPS}/go/${VERSION}
+  mkdir -p ${APPS}/go/${VERSION}
+  tar -C ${APPS}/go/${VERSION} -x -v -f go.tar.gz
+  ln -sf  ${APPS}/go/${VERSION}/ ${APPS}/go/latest
+  ln -sf ${APPS}/go/latest/go/bin/go ${BIN}/go
+  ln -sf ${APPS}/go/latest/go/bin/gofmt ${BIN}/gofmt
   rm go.tar.gz
 fi
 
@@ -51,13 +56,13 @@ fi
 VERSION=2.76.2
 if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
   #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
-  rm -f ~/apps/gh/latest
-  rm -rf ~/apps/gh/${VERSION}
-  mkdir -p ~/apps/gh/${VERSION}
-  GOBIN=~/apps/gh/${VERSION}/ go install github.com/cli/cli/v2/cmd/gh@v${VERSION}
-  #tar -C ~/apps/gh/${VERSION} -x -v --strip-components=1 -f gh.tar.gz
-  ln -sf  ~/apps/gh/${VERSION}/ ~/apps/gh/latest
-  ln -sf ~/apps/gh/latest/gh ~/bin/gh
+  rm -f ${APPS}/gh/latest
+  rm -rf ${APPS}/gh/${VERSION}
+  mkdir -p ${APPS}/gh/${VERSION}
+  GOBIN=${APPS}/gh/${VERSION}/ go install github.com/cli/cli/v2/cmd/gh@v${VERSION}
+  #tar -C ${APPS}/gh/${VERSION} -x -v --strip-components=1 -f gh.tar.gz
+  ln -sf  ${APPS}/gh/${VERSION}/ ${APPS}/gh/latest
+  ln -sf ${APPS}/gh/latest/gh ${BIN}/gh
   #rm gh.tar.gz
 fi
 
@@ -65,123 +70,123 @@ fi
 # kustomize
 VERSION=5.2.1
 if [[ ! -d "${HOME}/apps/kustomize/${VERSION}" ]]; then
-  rm -rf ~/apps/kustomize/latest
-  rm -rf ~/apps/kustomize/${VERSION}
-  mkdir -p ~/apps/kustomize/${VERSION}
-  pushd ~/apps/kustomize/${VERSION}
-  GOBIN=~/apps/kustomize/${VERSION}/ go install sigs.k8s.io/kustomize/kustomize/v5@v${VERSION}
+  rm -rf ${APPS}/kustomize/latest
+  rm -rf ${APPS}/kustomize/${VERSION}
+  mkdir -p ${APPS}/kustomize/${VERSION}
+  pushd ${APPS}/kustomize/${VERSION}
+  GOBIN=${APPS}/kustomize/${VERSION}/ go install sigs.k8s.io/kustomize/kustomize/v5@v${VERSION}
   popd
-  ln -sf  ~/apps/kustomize/${VERSION}/ ~/apps/kustomize/latest
-  ln -sf ~/apps/kustomize/latest/kustomize ~/bin/kustomize
+  ln -sf  ${APPS}/kustomize/${VERSION}/ ${APPS}/kustomize/latest
+  ln -sf ${APPS}/kustomize/latest/kustomize ${BIN}/kustomize
 fi
 
 # Terraform
 VERSION=1.5.6
 if [[ ! -d "${HOME}/apps/terraform/${VERSION}" ]]; then
-  rm -rf ~/apps/terraform/latest
-  rm -rf ~/apps/terraform/${VERSION}
-  mkdir -p ~/apps/terraform/${VERSION}
-  pushd ~/apps/terraform/${VERSION}
+  rm -rf ${APPS}/terraform/latest
+  rm -rf ${APPS}/terraform/${VERSION}
+  mkdir -p ${APPS}/terraform/${VERSION}
+  pushd ${APPS}/terraform/${VERSION}
   download_file "https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_${OS}_${ARCH}.zip" "terraform.zip"
   unzip terraform.zip
   rm terraform.zip
   popd
-  ln -sf  ~/apps/terraform/${VERSION}/ ~/apps/terraform/latest
-  ln -sf ~/apps/terraform/latest/terraform ~/bin/terraform
+  ln -sf  ${APPS}/terraform/${VERSION}/ ${APPS}/terraform/latest
+  ln -sf ${APPS}/terraform/latest/terraform ${BIN}/terraform
 fi
 
 # Helm
 VERSION=3.11.2
 if [[ ! -d "${HOME}/apps/helm/${VERSION}" ]]; then
   download_file "https://get.helm.sh/helm-v${VERSION}-${OS}-${ARCH}.tar.gz" "helm.tar.gz"
-  rm -rf ~/apps/helm/latest
-  rm -rf ~/apps/helm/${VERSION}
-  mkdir -p ~/apps/helm/${VERSION}
-  tar -C ~/apps/helm/${VERSION} -x -v --strip-components=1 -f helm.tar.gz
-  ln -sf  ~/apps/helm/${VERSION}/ ~/apps/helm/latest
-  ln -sf ~/apps/helm/latest/helm ~/bin/helm
+  rm -rf ${APPS}/helm/latest
+  rm -rf ${APPS}/helm/${VERSION}
+  mkdir -p ${APPS}/helm/${VERSION}
+  tar -C ${APPS}/helm/${VERSION} -x -v --strip-components=1 -f helm.tar.gz
+  ln -sf  ${APPS}/helm/${VERSION}/ ${APPS}/helm/latest
+  ln -sf ${APPS}/helm/latest/helm ${BIN}/helm
   rm helm.tar.gz
 fi
 
 # crane / gcrane
 VERSION=0.16.1
 if [[ ! -d "${HOME}/apps/crane/${VERSION}" ]]; then
-  rm -rf ~/apps/crane/latest
-  rm -rf ~/apps/crane/${VERSION}
-  mkdir -p ~/apps/crane/${VERSION}
-  pushd ~/apps/crane/${VERSION}
-  GOBIN=~/apps/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/crane@v${VERSION}
-  GOBIN=~/apps/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/gcrane@v${VERSION}
+  rm -rf ${APPS}/crane/latest
+  rm -rf ${APPS}/crane/${VERSION}
+  mkdir -p ${APPS}/crane/${VERSION}
+  pushd ${APPS}/crane/${VERSION}
+  GOBIN=${APPS}/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/crane@v${VERSION}
+  GOBIN=${APPS}/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/gcrane@v${VERSION}
   popd
-  ln -sf  ~/apps/crane/${VERSION}/ ~/apps/crane/latest
-  ln -sf ~/apps/crane/latest/crane ~/bin/crane
-  ln -sf ~/apps/crane/latest/gcrane ~/bin/gcrane
+  ln -sf  ${APPS}/crane/${VERSION}/ ${APPS}/crane/latest
+  ln -sf ${APPS}/crane/latest/crane ${BIN}/crane
+  ln -sf ${APPS}/crane/latest/gcrane ${BIN}/gcrane
 fi
 
 # kind
 VERSION=0.29.0
 if [[ ! -d "${HOME}/apps/kind/${VERSION}" ]]; then
-  rm -rf ~/apps/kind/latest
-  rm -rf ~/apps/kind/${VERSION}
-  mkdir -p ~/apps/kind/${VERSION}
-  pushd ~/apps/kind/${VERSION}
-  GOBIN=~/apps/kind/${VERSION}/ go install sigs.k8s.io/kind/cmd/kind@v${VERSION}
+  rm -rf ${APPS}/kind/latest
+  rm -rf ${APPS}/kind/${VERSION}
+  mkdir -p ${APPS}/kind/${VERSION}
+  pushd ${APPS}/kind/${VERSION}
+  GOBIN=${APPS}/kind/${VERSION}/ go install sigs.k8s.io/kind/cmd/kind@v${VERSION}
   popd
-  ln -sf  ~/apps/kind/${VERSION}/ ~/apps/kind/latest
-  ln -sf ~/apps/kind/latest/kind ~/bin/kind
+  ln -sf  ${APPS}/kind/${VERSION}/ ${APPS}/kind/latest
+  ln -sf ${APPS}/kind/latest/kind ${BIN}/kind
 fi
 
 # kOps
 kops_versions=( "1.26.2" )
 for VERSION in "${kops_versions[@]}"; do
   if [[ ! -d "${HOME}/apps/kops/${VERSION}" ]]; then
-    #rm -rf ~/apps/kops/latest
-    rm -rf ~/apps/kops/${VERSION}
-    mkdir -p ~/apps/kops/${VERSION}
-    download_file https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-${OS}-${ARCH} ~/apps/kops/${VERSION}/kops
-    chmod +x ~/apps/kops/${VERSION}/kops
-    #ln -sf  ~/apps/kops/${VERSION}/ ~/apps/kops/latest
-    ln -sf ~/apps/kops/${VERSION}/kops ~/bin/kops-${VERSION}
+    #rm -rf ${APPS}/kops/latest
+    rm -rf ${APPS}/kops/${VERSION}
+    mkdir -p ${APPS}/kops/${VERSION}
+    download_file https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-${OS}-${ARCH} ${APPS}/kops/${VERSION}/kops
+    chmod +x ${APPS}/kops/${VERSION}/kops
+    #ln -sf  ${APPS}/kops/${VERSION}/ ${APPS}/kops/latest
+    ln -sf ${APPS}/kops/${VERSION}/kops ${BIN}/kops-${VERSION}
   fi
 done
 
 # kubectl
 VERSION=1.32.3
 if [[ ! -d "${HOME}/apps/kubectl/${VERSION}" ]]; then
-  rm -rf ~/apps/kubectl/latest
-  rm -rf ~/apps/kubectl/${VERSION}
-  mkdir -p ~/apps/kubectl/${VERSION}
-  download_file "https://dl.k8s.io/release/v${VERSION}/bin/${OS}/${ARCH}/kubectl" "~/apps/kubectl/${VERSION}/kubectl"
-  chmod +x ~/apps/kubectl/${VERSION}/kubectl
-  ln -sf  ~/apps/kubectl/${VERSION}/ ~/apps/kubectl/latest
-  ln -sf ~/apps/kubectl/latest/kubectl ~/bin/kubectl
+  rm -rf ${APPS}/kubectl/latest
+  rm -rf ${APPS}/kubectl/${VERSION}
+  mkdir -p ${APPS}/kubectl/${VERSION}
+  download_file "https://dl.k8s.io/release/v${VERSION}/bin/${OS}/${ARCH}/kubectl" "${APPS}/kubectl/${VERSION}/kubectl"
+  chmod +x ${APPS}/kubectl/${VERSION}/kubectl
+  ln -sf  ${APPS}/kubectl/${VERSION}/ ${APPS}/kubectl/latest
+  ln -sf ${APPS}/kubectl/latest/kubectl ${BIN}/kubectl
 fi
 
 # stern
 VERSION=1.26.0
 if [[ ! -d "${HOME}/apps/stern/${VERSION}" ]]; then
-  rm -rf ~/apps/stern/latest
-  rm -rf ~/apps/stern/${VERSION}
-  mkdir -p ~/apps/stern/${VERSION}
-  pushd ~/apps/stern/${VERSION}
-  GOBIN=~/apps/stern/${VERSION}/ go install github.com/stern/stern@v${VERSION}
+  rm -rf ${APPS}/stern/latest
+  rm -rf ${APPS}/stern/${VERSION}
+  mkdir -p ${APPS}/stern/${VERSION}
+  pushd ${APPS}/stern/${VERSION}
+  GOBIN=${APPS}/stern/${VERSION}/ go install github.com/stern/stern@v${VERSION}
   popd
-  ln -sf  ~/apps/stern/${VERSION}/ ~/apps/stern/latest
-  ln -sf ~/apps/stern/latest/stern ~/bin/stern
+  ln -sf  ${APPS}/stern/${VERSION}/ ${APPS}/stern/latest
+  ln -sf ${APPS}/stern/latest/stern ${BIN}/stern
 fi
 
 # aws cli
 VERSION=2.17.37
 if [[ ! -d "${HOME}/apps/awscli/${VERSION}" ]]; then
-  rm -rf ~/apps/awscli/latest
-  rm -rf ~/apps/awscli/${VERSION}
-  mkdir -p ~/apps/awscli/${VERSION}
-  pushd ~/apps/awscli/${VERSION}
+  rm -rf ${APPS}/awscli/latest
+  rm -rf ${APPS}/awscli/${VERSION}
+  mkdir -p ${APPS}/awscli/${VERSION}
+  pushd ${APPS}/awscli/${VERSION}
   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${VERSION}.zip" -o "awscli.zip"
   unzip awscli.zip
   popd
-  ln -sf  ~/apps/awscli/${VERSION}/ ~/apps/awscli/latest
-  ln -sf ~/apps/awscli/latest/aws/dist/aws ~/bin/aws
+  ln -sf  ${APPS}/awscli/${VERSION}/ ${APPS}/awscli/latest
+  ln -sf ${APPS}/awscli/latest/aws/dist/aws ${BIN}/aws
 fi
 
 # Only on stock debian
@@ -196,8 +201,8 @@ fi
 # Only on MacOS
 if [[ "${OS}" == "darwin" ]]; then
   if ( ! which gcloud ); then
-    mkdir -p ~/apps/gcloud
-    pushd ~/apps/gcloud
+    mkdir -p ${APPS}/gcloud
+    pushd ${APPS}/gcloud
     gcloud_arch=${ARGH}
     if [[ "${ARCH}" == "arm64" ]]; then
       gcloud_arch="arm"
@@ -207,11 +212,8 @@ if [[ "${OS}" == "darwin" ]]; then
     rm google-cloud-cli.tar.gz
     ./install.sh --quiet --command-completion=true --path-update=true --usage-reporting=false --install-python=true
     popd
-    ln -sf ~/apps/gcloud/google-cloud-sdk/bin/gcloud ~/bin/gcloud
-    ln -sf ~/apps/gcloud/google-cloud-sdk/bin/bq ~/bin/bq
-    ln -sf ~/apps/gcloud/google-cloud-sdk/bin/gsutil ~/bin/gsutil
+    ln -sf ${APPS}/gcloud/google-cloud-sdk/bin/gcloud ${BIN}/gcloud
+    ln -sf ${APPS}/gcloud/google-cloud-sdk/bin/bq ${BIN}/bq
+    ln -sf ${APPS}/gcloud/google-cloud-sdk/bin/gsutil ${BIN}/gsutil
   fi
 fi
-
-# Install src tool
-./install-srctool

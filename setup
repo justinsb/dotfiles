@@ -40,7 +40,7 @@ download_file() {
 
 # Go
 VERSION=1.25.1
-if [[ ! -d "${HOME}/apps/go/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/go/${VERSION}" ]]; then
   download_file "https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz" "go.tar.gz"
   rm -rf ${APPS}/go/latest
   rm -rf ${APPS}/go/${VERSION}
@@ -54,7 +54,7 @@ fi
 
 # GH CLI
 VERSION=2.76.2
-if [[ ! -d "${HOME}/apps/gh/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/gh/${VERSION}" ]]; then
   #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
   rm -f ${APPS}/gh/latest
   rm -rf ${APPS}/gh/${VERSION}
@@ -69,7 +69,7 @@ fi
 
 # kustomize
 VERSION=5.2.1
-if [[ ! -d "${HOME}/apps/kustomize/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/kustomize/${VERSION}" ]]; then
   rm -rf ${APPS}/kustomize/latest
   rm -rf ${APPS}/kustomize/${VERSION}
   mkdir -p ${APPS}/kustomize/${VERSION}
@@ -82,7 +82,7 @@ fi
 
 # Terraform
 VERSION=1.5.6
-if [[ ! -d "${HOME}/apps/terraform/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/terraform/${VERSION}" ]]; then
   rm -rf ${APPS}/terraform/latest
   rm -rf ${APPS}/terraform/${VERSION}
   mkdir -p ${APPS}/terraform/${VERSION}
@@ -97,7 +97,7 @@ fi
 
 # Helm
 VERSION=3.11.2
-if [[ ! -d "${HOME}/apps/helm/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/helm/${VERSION}" ]]; then
   download_file "https://get.helm.sh/helm-v${VERSION}-${OS}-${ARCH}.tar.gz" "helm.tar.gz"
   rm -rf ${APPS}/helm/latest
   rm -rf ${APPS}/helm/${VERSION}
@@ -110,7 +110,7 @@ fi
 
 # crane / gcrane
 VERSION=0.16.1
-if [[ ! -d "${HOME}/apps/crane/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/crane/${VERSION}" ]]; then
   rm -rf ${APPS}/crane/latest
   rm -rf ${APPS}/crane/${VERSION}
   mkdir -p ${APPS}/crane/${VERSION}
@@ -125,7 +125,7 @@ fi
 
 # kind
 VERSION=0.29.0
-if [[ ! -d "${HOME}/apps/kind/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/kind/${VERSION}" ]]; then
   rm -rf ${APPS}/kind/latest
   rm -rf ${APPS}/kind/${VERSION}
   mkdir -p ${APPS}/kind/${VERSION}
@@ -139,7 +139,7 @@ fi
 # kOps
 kops_versions=( "1.26.2" )
 for VERSION in "${kops_versions[@]}"; do
-  if [[ ! -d "${HOME}/apps/kops/${VERSION}" ]]; then
+  if [[ ! -d "${APPS}/kops/${VERSION}" ]]; then
     #rm -rf ${APPS}/kops/latest
     rm -rf ${APPS}/kops/${VERSION}
     mkdir -p ${APPS}/kops/${VERSION}
@@ -152,7 +152,7 @@ done
 
 # kubectl
 VERSION=1.32.3
-if [[ ! -d "${HOME}/apps/kubectl/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/kubectl/${VERSION}" ]]; then
   rm -rf ${APPS}/kubectl/latest
   rm -rf ${APPS}/kubectl/${VERSION}
   mkdir -p ${APPS}/kubectl/${VERSION}
@@ -164,7 +164,7 @@ fi
 
 # stern
 VERSION=1.26.0
-if [[ ! -d "${HOME}/apps/stern/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/stern/${VERSION}" ]]; then
   rm -rf ${APPS}/stern/latest
   rm -rf ${APPS}/stern/${VERSION}
   mkdir -p ${APPS}/stern/${VERSION}
@@ -177,7 +177,7 @@ fi
 
 # aws cli
 VERSION=2.17.37
-if [[ ! -d "${HOME}/apps/awscli/${VERSION}" ]]; then
+if [[ ! -d "${APPS}/awscli/${VERSION}" ]]; then
   rm -rf ${APPS}/awscli/latest
   rm -rf ${APPS}/awscli/${VERSION}
   mkdir -p ${APPS}/awscli/${VERSION}
@@ -217,3 +217,10 @@ if [[ "${OS}" == "darwin" ]]; then
     ln -sf ${APPS}/gcloud/google-cloud-sdk/bin/gsutil ${BIN}/gsutil
   fi
 fi
+
+./setup-node
+./setup-gemini-cli
+
+./setup-srctool
+
+./setup-gcloud

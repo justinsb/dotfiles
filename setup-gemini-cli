@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+
+import os
+import platform
+import shutil
+import subprocess
+
+
+def main():
+    # Just run npm install -g @google/gemini-cli
+    subprocess.run(["npm", "install", "-g", "@google/gemini-cli"], check=True)
+
+if __name__ == "__main__":
+    main()

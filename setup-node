@@ -5,6 +5,11 @@ import platform
 import shutil
 import subprocess
 
+def download_from_url(url, target_path):
+    # wget is not available on macOS by default
+    #subprocess.run(["wget", url, "-O", target_path], check=True)
+    subprocess.run(["curl", "-L", url, "-o", target_path], check=True)
+
 def download_node(version, target_dir):
     arch = platform.machine()
     if arch == "x86_64":
@@ -16,7 +21,7 @@ def download_node(version, target_dir):
         os_name = "darwin"
     url = f"https://nodejs.org/dist/v{version}/node-v{version}-{os_name}-{arch}.tar.xz"
     tarball = f"nodejs-{version}.tar.xz"
-    subprocess.run(["wget", url, "-O", tarball], check=True)
+    download_from_url(url, tarball)
     extract_node(tarball, target_dir)
     os.remove(tarball)
     return tarball
@@ -30,27 +35,27 @@ def extract_node(tarball, target_dir):
     ], check=True)
 
 def setup_symlinks(version, home):
-    latest = os.path.join(home, "apps/nodejs/latest")
+    latest = os.path.join(home, ".local/apps/nodejs/latest")
     if os.path.islink(latest):
         os.unlink(latest)
-    os.symlink(os.path.join(home, f"apps/nodejs/{version}"), latest)
+    os.symlink(os.path.join(home, f".local/apps/nodejs/{version}"), latest)
 
     node_bin = os.path.join(latest, "bin/node")
-    user_bin = os.path.join(home, "bin/node")
+    user_bin = os.path.join(home, ".local/bin/node")
     if os.path.islink(user_bin):
         os.unlink(user_bin)
     os.symlink(node_bin, user_bin)
 
     node_bin = os.path.join(latest, "bin/npm")
-    user_bin = os.path.join(home, "bin/npm")
+    user_bin = os.path.join(home, ".local/bin/npm")
     if os.path.islink(user_bin):
         os.unlink(user_bin)
     os.symlink(node_bin, user_bin)
 
 def main():
-    version = "22.18.0"
+    version = "22.19.0"
     home = os.path.expanduser("~")
-    node_dir = os.path.join(home, f"apps/nodejs/{version}")
+    node_dir = os.path.join(home, f".local/apps/nodejs/{version}")
     if not os.path.isdir(node_dir):
         os.chdir(home)
         download_node(version, node_dir)

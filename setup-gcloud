@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+
+import os
+import platform
+import shutil
+import subprocess
+
+def download_from_url(url, target_path):
+    # wget is not available on macOS by default
+    #subprocess.run(["wget", url, "-O", target_path], check=True)
+    subprocess.run(["curl", "-L", url, "-o", target_path], check=True)
+    print(f"Downloaded {url} to {target_path}")
+
+apps_dir = os.path.join(os.path.expanduser("~"), ".local", "apps")
+bin_dir = os.path.join(os.path.expanduser("~"), ".local", "bin")
+
+def download_gcloud(version, target_dir):
+    arch = platform.machine().lower()
+    if arch == "arm64":
+        arch = "arm"
+    os_name = platform.system().lower()
+    url = f"https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-{os_name}-{arch}.tar.gz"
+    tarball = f"gcloud-{version}.tar.gz"
+    download_from_url(url, tarball)
+    extract_gcloud(tarball, target_dir)
+    os.remove(tarball)
+    return tarball
+
+def extract_gcloud(tarball, target_dir):
+    if os.path.exists(target_dir):
+        shutil.rmtree(target_dir)
+    os.makedirs(target_dir, exist_ok=True)
+    subprocess.run([
+        "tar", "-C", target_dir, "-x", "-v", "--strip-components=1", "-f", tarball
+    ], check=True)
+
+
+def setup_symlinks(version, home):
+    latest = os.path.join(apps_dir, "gcloud/latest")
+    if os.path.islink(latest):
+        os.unlink(latest)
+    os.symlink(os.path.join(apps_dir, f"gcloud/{version}"), latest)
+
+    for bin in 'gcloud', 'gsutil', 'bq', 'docker-credential-gcloud':
+        gcloud_bin = os.path.join(latest, f"bin/{bin}")
+        user_bin = os.path.join(bin_dir, f"{bin}")
+        if os.path.islink(user_bin):
+            os.unlink(user_bin)
+        os.symlink(gcloud_bin, user_bin)
+
+
+def main():
+    version = "535.0.0"
+    gcloud_dir = os.path.join(apps_dir, f"gcloud/{version}")
+    if not os.path.isdir(gcloud_dir):
+        download_gcloud(version, gcloud_dir)
+    setup_symlinks(version, apps_dir)
+
+if __name__ == "__main__":
+    main()

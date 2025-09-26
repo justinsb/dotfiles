@@ -68,17 +68,7 @@ fi
 
 
 # kustomize
-VERSION=5.2.1
-if [[ ! -d "${APPS}/kustomize/${VERSION}" ]]; then
-  rm -rf ${APPS}/kustomize/latest
-  rm -rf ${APPS}/kustomize/${VERSION}
-  mkdir -p ${APPS}/kustomize/${VERSION}
-  pushd ${APPS}/kustomize/${VERSION}
-  GOBIN=${APPS}/kustomize/${VERSION}/ go install sigs.k8s.io/kustomize/kustomize/v5@v${VERSION}
-  popd
-  ln -sf  ${APPS}/kustomize/${VERSION}/ ${APPS}/kustomize/latest
-  ln -sf ${APPS}/kustomize/latest/kustomize ${BIN}/kustomize
-fi
+./setup-kustomize
 
 # Terraform
 VERSION=1.5.6

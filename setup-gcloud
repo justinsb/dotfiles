@@ -50,7 +50,7 @@ def setup_symlinks(version, home):
 
 
 def main():
-    version = "535.0.0"
+    version = "546.0.0"
     gcloud_dir = os.path.join(apps_dir, f"gcloud/{version}")
     if not os.path.isdir(gcloud_dir):
         download_gcloud(version, gcloud_dir)

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+set -x
+
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
+fi
+
+if [[ "${ARCH}" == "x86_64" ]]; then
+  ARCH=amd64
+fi
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+# stern
+VERSION=1.26.0
+if [[ ! -d "${APPS}/stern/${VERSION}" ]]; then
+  rm -rf ${APPS}/stern/latest
+  rm -rf ${APPS}/stern/${VERSION}
+  mkdir -p ${APPS}/stern/${VERSION}
+  pushd ${APPS}/stern/${VERSION}
+  GOBIN=${APPS}/stern/${VERSION}/ go install github.com/stern/stern@v${VERSION}
+  popd
+  ln -sf  ${APPS}/stern/${VERSION}/ ${APPS}/stern/latest
+  ln -sf ${APPS}/stern/latest/stern ${BIN}/stern
+fi

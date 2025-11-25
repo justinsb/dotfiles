@@ -38,146 +38,27 @@ download_file() {
   curl -L --fail "$url" -o "$output"
 }
 
-# Go
-VERSION=1.25.3
-if [[ ! -d "${APPS}/go/${VERSION}" ]]; then
-  download_file "https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz" "go.tar.gz"
-  rm -rf ${APPS}/go/latest
-  rm -rf ${APPS}/go/${VERSION}
-  mkdir -p ${APPS}/go/${VERSION}
-  tar -C ${APPS}/go/${VERSION} -x -v -f go.tar.gz
-  ln -sf  ${APPS}/go/${VERSION}/ ${APPS}/go/latest
-  ln -sf ${APPS}/go/latest/go/bin/go ${BIN}/go
-  ln -sf ${APPS}/go/latest/go/bin/gofmt ${BIN}/gofmt
-  rm go.tar.gz
-fi
+tasks/install-go
 
-# GH CLI
-VERSION=2.82.1
-if [[ ! -d "${APPS}/gh/${VERSION}" ]]; then
-  #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
-  rm -f ${APPS}/gh/latest
-  rm -rf ${APPS}/gh/${VERSION}
-  mkdir -p ${APPS}/gh/${VERSION}
-  GOBIN=${APPS}/gh/${VERSION}/ go install github.com/cli/cli/v2/cmd/gh@v${VERSION}
-  #tar -C ${APPS}/gh/${VERSION} -x -v --strip-components=1 -f gh.tar.gz
-  ln -sf  ${APPS}/gh/${VERSION}/ ${APPS}/gh/latest
-  ln -sf ${APPS}/gh/latest/gh ${BIN}/gh
-  #rm gh.tar.gz
-fi
+tasks/install-gh
 
+tasks/install-kustomize
 
-# kustomize
-./setup-kustomize
+tasks/install-terraform
 
-# Terraform
-VERSION=1.5.6
-if [[ ! -d "${APPS}/terraform/${VERSION}" ]]; then
-  rm -rf ${APPS}/terraform/latest
-  rm -rf ${APPS}/terraform/${VERSION}
-  mkdir -p ${APPS}/terraform/${VERSION}
-  pushd ${APPS}/terraform/${VERSION}
-  download_file "https://releases.hashicorp.com/terraform/${VERSION}/terraform_${VERSION}_${OS}_${ARCH}.zip" "terraform.zip"
-  unzip terraform.zip
-  rm terraform.zip
-  popd
-  ln -sf  ${APPS}/terraform/${VERSION}/ ${APPS}/terraform/latest
-  ln -sf ${APPS}/terraform/latest/terraform ${BIN}/terraform
-fi
+tasks/install-helm
 
-# Helm
-VERSION=3.11.2
-if [[ ! -d "${APPS}/helm/${VERSION}" ]]; then
-  download_file "https://get.helm.sh/helm-v${VERSION}-${OS}-${ARCH}.tar.gz" "helm.tar.gz"
-  rm -rf ${APPS}/helm/latest
-  rm -rf ${APPS}/helm/${VERSION}
-  mkdir -p ${APPS}/helm/${VERSION}
-  tar -C ${APPS}/helm/${VERSION} -x -v --strip-components=1 -f helm.tar.gz
-  ln -sf  ${APPS}/helm/${VERSION}/ ${APPS}/helm/latest
-  ln -sf ${APPS}/helm/latest/helm ${BIN}/helm
-  rm helm.tar.gz
-fi
+tasks/install-crane
 
-# crane / gcrane
-VERSION=0.16.1
-if [[ ! -d "${APPS}/crane/${VERSION}" ]]; then
-  rm -rf ${APPS}/crane/latest
-  rm -rf ${APPS}/crane/${VERSION}
-  mkdir -p ${APPS}/crane/${VERSION}
-  pushd ${APPS}/crane/${VERSION}
-  GOBIN=${APPS}/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/crane@v${VERSION}
-  GOBIN=${APPS}/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/gcrane@v${VERSION}
-  popd
-  ln -sf  ${APPS}/crane/${VERSION}/ ${APPS}/crane/latest
-  ln -sf ${APPS}/crane/latest/crane ${BIN}/crane
-  ln -sf ${APPS}/crane/latest/gcrane ${BIN}/gcrane
-fi
+tasks/install-kind
 
-# kind
-VERSION=0.29.0
-if [[ ! -d "${APPS}/kind/${VERSION}" ]]; then
-  rm -rf ${APPS}/kind/latest
-  rm -rf ${APPS}/kind/${VERSION}
-  mkdir -p ${APPS}/kind/${VERSION}
-  pushd ${APPS}/kind/${VERSION}
-  GOBIN=${APPS}/kind/${VERSION}/ go install sigs.k8s.io/kind/cmd/kind@v${VERSION}
-  popd
-  ln -sf  ${APPS}/kind/${VERSION}/ ${APPS}/kind/latest
-  ln -sf ${APPS}/kind/latest/kind ${BIN}/kind
-fi
+tasks/install-kops
 
-# kOps
-kops_versions=( "1.26.2" )
-for VERSION in "${kops_versions[@]}"; do
-  if [[ ! -d "${APPS}/kops/${VERSION}" ]]; then
-    #rm -rf ${APPS}/kops/latest
-    rm -rf ${APPS}/kops/${VERSION}
-    mkdir -p ${APPS}/kops/${VERSION}
-    download_file https://github.com/kubernetes/kops/releases/download/v${VERSION}/kops-${OS}-${ARCH} ${APPS}/kops/${VERSION}/kops
-    chmod +x ${APPS}/kops/${VERSION}/kops
-    #ln -sf  ${APPS}/kops/${VERSION}/ ${APPS}/kops/latest
-    ln -sf ${APPS}/kops/${VERSION}/kops ${BIN}/kops-${VERSION}
-  fi
-done
+tasks/install-kubectl
 
-# kubectl
-VERSION=1.32.3
-if [[ ! -d "${APPS}/kubectl/${VERSION}" ]]; then
-  rm -rf ${APPS}/kubectl/latest
-  rm -rf ${APPS}/kubectl/${VERSION}
-  mkdir -p ${APPS}/kubectl/${VERSION}
-  download_file "https://dl.k8s.io/release/v${VERSION}/bin/${OS}/${ARCH}/kubectl" "${APPS}/kubectl/${VERSION}/kubectl"
-  chmod +x ${APPS}/kubectl/${VERSION}/kubectl
-  ln -sf  ${APPS}/kubectl/${VERSION}/ ${APPS}/kubectl/latest
-  ln -sf ${APPS}/kubectl/latest/kubectl ${BIN}/kubectl
-fi
+tasks/install-stern
 
-# stern
-VERSION=1.26.0
-if [[ ! -d "${APPS}/stern/${VERSION}" ]]; then
-  rm -rf ${APPS}/stern/latest
-  rm -rf ${APPS}/stern/${VERSION}
-  mkdir -p ${APPS}/stern/${VERSION}
-  pushd ${APPS}/stern/${VERSION}
-  GOBIN=${APPS}/stern/${VERSION}/ go install github.com/stern/stern@v${VERSION}
-  popd
-  ln -sf  ${APPS}/stern/${VERSION}/ ${APPS}/stern/latest
-  ln -sf ${APPS}/stern/latest/stern ${BIN}/stern
-fi
-
-# aws cli
-VERSION=2.17.37
-if [[ ! -d "${APPS}/awscli/${VERSION}" ]]; then
-  rm -rf ${APPS}/awscli/latest
-  rm -rf ${APPS}/awscli/${VERSION}
-  mkdir -p ${APPS}/awscli/${VERSION}
-  pushd ${APPS}/awscli/${VERSION}
-  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${VERSION}.zip" -o "awscli.zip"
-  unzip awscli.zip
-  popd
-  ln -sf  ${APPS}/awscli/${VERSION}/ ${APPS}/awscli/latest
-  ln -sf ${APPS}/awscli/latest/aws/dist/aws ${BIN}/aws
-fi
+tasks/install-awscli
 
 # Only on stock debian
 if grep 'BUG_REPORT_URL.*debian' /etc/os-release; then
@@ -208,9 +89,9 @@ if [[ "${OS}" == "darwin" ]]; then
   fi
 fi
 
-./setup-node
-./setup-gemini-cli
+tasks/install-node
+tasks/install-gemini-cli
 
-./setup-srctool
+tasks/install-srctool
 
-./setup-gcloud
+tasks/install-gcloud

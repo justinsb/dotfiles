@@ -2,7 +2,6 @@
 
 import os
 import platform
-import shutil
 import subprocess
 
 def download_from_url(url, target_path):
@@ -27,8 +26,6 @@ def download_gcloud(version, target_dir):
     return tarball
 
 def extract_gcloud(tarball, target_dir):
-    if os.path.exists(target_dir):
-        shutil.rmtree(target_dir)
     os.makedirs(target_dir, exist_ok=True)
     subprocess.run([
         "tar", "-C", target_dir, "-x", "-v", "--strip-components=1", "-f", tarball

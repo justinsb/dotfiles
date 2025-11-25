@@ -8,7 +8,7 @@ mkdir -p ~/.local/bin/
 mkdir -p ~/.local/apps
 pushd ~/.local/apps
 if [[ ! -d srctool ]]; then
-  git clone git@github.com:justinsb/srctool || gh repo clone justinsb/srctool
+  git clone https://github.com/justinsb/srctool
   cd srctool
 else
   cd srctool

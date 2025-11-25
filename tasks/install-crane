@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -e
+set -x
+
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
+fi
+
+if [[ "${ARCH}" == "x86_64" ]]; then
+  ARCH=amd64
+fi
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+# crane / gcrane
+VERSION=0.16.1
+if [[ ! -d "${APPS}/crane/${VERSION}" ]]; then
+  rm -rf ${APPS}/crane/latest
+  rm -rf ${APPS}/crane/${VERSION}
+  mkdir -p ${APPS}/crane/${VERSION}
+  pushd ${APPS}/crane/${VERSION}
+  GOBIN=${APPS}/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/crane@v${VERSION}
+  GOBIN=${APPS}/crane/${VERSION}/ go install github.com/google/go-containerregistry/cmd/gcrane@v${VERSION}
+  popd
+  ln -sf  ${APPS}/crane/${VERSION}/ ${APPS}/crane/latest
+  ln -sf ${APPS}/crane/latest/crane ${BIN}/crane
+  ln -sf ${APPS}/crane/latest/gcrane ${BIN}/gcrane
+fi

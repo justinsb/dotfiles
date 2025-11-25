@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+set -x
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+download_file() {
+  # Usage: download_file <url> <output_file>
+  local url="$1"
+  local output="$2"
+  curl -L --fail "$url" -o "$output"
+}
+
+# GH CLI
+VERSION=2.82.1
+if [[ ! -d "${APPS}/gh/${VERSION}" ]]; then
+  #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
+  rm -f ${APPS}/gh/latest
+  rm -rf ${APPS}/gh/${VERSION}
+  mkdir -p ${APPS}/gh/${VERSION}
+  GOBIN=${APPS}/gh/${VERSION}/ go install github.com/cli/cli/v2/cmd/gh@v${VERSION}
+  #tar -C ${APPS}/gh/${VERSION} -x -v --strip-components=1 -f gh.tar.gz
+  ln -sf  ${APPS}/gh/${VERSION}/ ${APPS}/gh/latest
+  ln -sf ${APPS}/gh/latest/gh ${BIN}/gh
+  #rm gh.tar.gz
+fi
+

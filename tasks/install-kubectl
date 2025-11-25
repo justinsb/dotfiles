@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -e
+set -x
+
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
+fi
+
+if [[ "${ARCH}" == "x86_64" ]]; then
+  ARCH=amd64
+fi
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+download_file() {
+  # Usage: download_file <url> <output_file>
+  local url="$1"
+  local output="$2"
+  curl -L --fail "$url" -o "$output"
+}
+
+# kubectl
+VERSION=1.32.3
+if [[ ! -d "${APPS}/kubectl/${VERSION}" ]]; then
+  rm -rf ${APPS}/kubectl/latest
+  rm -rf ${APPS}/kubectl/${VERSION}
+  mkdir -p ${APPS}/kubectl/${VERSION}
+  download_file "https://dl.k8s.io/release/v${VERSION}/bin/${OS}/${ARCH}/kubectl" "${APPS}/kubectl/${VERSION}/kubectl"
+  chmod +x ${APPS}/kubectl/${VERSION}/kubectl
+  ln -sf  ${APPS}/kubectl/${VERSION}/ ${APPS}/kubectl/latest
+  ln -sf ${APPS}/kubectl/latest/kubectl ${BIN}/kubectl
+fi

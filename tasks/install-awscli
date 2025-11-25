@@ -1,0 +1,37 @@
+#!/bin/bash
+
+set -e
+set -x
+
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
+fi
+
+if [[ "${ARCH}" == "x86_64" ]]; then
+  ARCH=amd64
+fi
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+# aws cli
+VERSION=2.17.37
+if [[ ! -d "${APPS}/awscli/${VERSION}" ]]; then
+  rm -rf ${APPS}/awscli/latest
+  rm -rf ${APPS}/awscli/${VERSION}
+  mkdir -p ${APPS}/awscli/${VERSION}
+  pushd ${APPS}/awscli/${VERSION}
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${VERSION}.zip" -o "awscli.zip"
+  unzip -q awscli.zip
+  popd
+  ln -sf  ${APPS}/awscli/${VERSION}/ ${APPS}/awscli/latest
+  ln -sf ${APPS}/awscli/latest/aws/dist/aws ${BIN}/aws
+fi

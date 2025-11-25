@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e
+set -x
+
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
+fi
+
+if [[ "${ARCH}" == "x86_64" ]]; then
+  ARCH=amd64
+fi
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+download_file() {
+  # Usage: download_file <url> <output_file>
+  local url="$1"
+  local output="$2"
+  curl -L --fail "$url" -o "$output"
+}
+
+# Go
+VERSION=1.25.3
+if [[ ! -d "${APPS}/go/${VERSION}" ]]; then
+  download_file "https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz" "go.tar.gz"
+  rm -rf ${APPS}/go/latest
+  rm -rf ${APPS}/go/${VERSION}
+  mkdir -p ${APPS}/go/${VERSION}
+  tar -C ${APPS}/go/${VERSION} -x -f go.tar.gz
+  ln -sf  ${APPS}/go/${VERSION}/ ${APPS}/go/latest
+  ln -sf ${APPS}/go/latest/go/bin/go ${BIN}/go
+  ln -sf ${APPS}/go/latest/go/bin/gofmt ${BIN}/gofmt
+  rm go.tar.gz
+fi

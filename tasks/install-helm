@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -e
+set -x
+
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
+fi
+
+if [[ "${ARCH}" == "x86_64" ]]; then
+  ARCH=amd64
+fi
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+download_file() {
+  # Usage: download_file <url> <output_file>
+  local url="$1"
+  local output="$2"
+  curl -L --fail "$url" -o "$output"
+}
+
+# Helm
+VERSION=3.11.2
+if [[ ! -d "${APPS}/helm/${VERSION}" ]]; then
+  download_file "https://get.helm.sh/helm-v${VERSION}-${OS}-${ARCH}.tar.gz" "helm.tar.gz"
+  rm -rf ${APPS}/helm/latest
+  rm -rf ${APPS}/helm/${VERSION}
+  mkdir -p ${APPS}/helm/${VERSION}
+  tar -C ${APPS}/helm/${VERSION} -x -v --strip-components=1 -f helm.tar.gz
+  ln -sf  ${APPS}/helm/${VERSION}/ ${APPS}/helm/latest
+  ln -sf ${APPS}/helm/latest/helm ${BIN}/helm
+  rm helm.tar.gz
+fi

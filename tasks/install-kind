@@ -1,0 +1,36 @@
+#!/bin/bash
+
+set -e
+set -x
+
+ARCH=$(uname -m)
+OS=$(uname -s)
+
+if [[ "${OS}" == "Linux" ]]; then
+  OS=linux
+elif [[ "${OS}" == "Darwin" ]]; then
+  OS=darwin
+fi
+
+if [[ "${ARCH}" == "x86_64" ]]; then
+  ARCH=amd64
+fi
+
+BIN=~/.local/bin
+mkdir -p ${BIN}
+
+APPS=~/.local/apps
+mkdir -p ${APPS}
+
+# kind
+VERSION=0.29.0
+if [[ ! -d "${APPS}/kind/${VERSION}" ]]; then
+  rm -rf ${APPS}/kind/latest
+  rm -rf ${APPS}/kind/${VERSION}
+  mkdir -p ${APPS}/kind/${VERSION}
+  pushd ${APPS}/kind/${VERSION}
+  GOBIN=${APPS}/kind/${VERSION}/ go install sigs.k8s.io/kind/cmd/kind@v${VERSION}
+  popd
+  ln -sf  ${APPS}/kind/${VERSION}/ ${APPS}/kind/latest
+  ln -sf ${APPS}/kind/latest/kind ${BIN}/kind
+fi

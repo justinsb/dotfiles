@@ -2,8 +2,8 @@
 
 import os
 import platform
-import shutil
 import subprocess
+import tempfile
 
 def download_from_url(url, target_path):
     # wget is not available on macOS by default
@@ -27,12 +27,14 @@ def download_node(version, target_dir):
     return tarball
 
 def extract_node(tarball, target_dir):
-    if os.path.exists(target_dir):
-        shutil.rmtree(target_dir)
-    os.makedirs(target_dir, exist_ok=True)
-    subprocess.run([
-        "tar", "-C", target_dir, "-x", "-v", "--strip-components=1", "-f", tarball
-    ], check=True)
+    parent_dir = os.path.dirname(target_dir)
+    os.makedirs(parent_dir, exist_ok=True)
+    with tempfile.TemporaryDirectory(dir=parent_dir) as tmpdir:
+        subprocess.run([
+            "tar", "-C", tmpdir, "-x", "--strip-components=1", "-f", tarball
+        ], check=True)
+        os.rename(tmpdir, target_dir)
+        tmpdir.delete = False
 
 def setup_symlinks(version, home):
     latest = os.path.join(home, ".local/apps/nodejs/latest")

@@ -3,6 +3,8 @@
 set -e
 set -x
 
+VERSION=1.25.5
+
 ARCH=$(uname -m)
 OS=$(uname -s)
 
@@ -30,7 +32,6 @@ download_file() {
 }
 
 # Go
-VERSION=1.25.3
 if [[ ! -d "${APPS}/go/${VERSION}" ]]; then
   download_file "https://go.dev/dl/go${VERSION}.${OS}-${ARCH}.tar.gz" "go.tar.gz"
   rm -rf ${APPS}/go/latest

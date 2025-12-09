@@ -53,8 +53,14 @@ def main():
         download_gcloud(version, gcloud_dir)
     setup_symlinks(version, apps_dir)
 
+    # Install alpha components
+    subprocess.run(["gcloud", "components", "install", "alpha", "--quiet"], check=True)
+
+    # Install beta components
+    subprocess.run(["gcloud", "components", "install", "beta", "--quiet"], check=True)
+
     # Install gke-gcloud-auth-plugin
-    subprocess.run(["gcloud", "components", "install", "gke-gcloud-auth-plugin"], check=True)
+    subprocess.run(["gcloud", "components", "install", "gke-gcloud-auth-plugin", "--quiet"], check=True)
 
 if __name__ == "__main__":
     main()

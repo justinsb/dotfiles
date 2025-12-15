@@ -18,7 +18,8 @@ def download_gcloud(version, target_dir):
     if arch == "arm64":
         arch = "arm"
     os_name = platform.system().lower()
-    url = f"https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-{os_name}-{arch}.tar.gz"
+    #url = f"https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-{os_name}-{arch}.tar.gz"
+    url = f"https://storage.googleapis.com/cloud-sdk-release/google-cloud-cli-{version}-{os_name}-{arch}.tar.gz"
     tarball = f"gcloud-{version}.tar.gz"
     download_from_url(url, tarball)
     extract_gcloud(tarball, target_dir)

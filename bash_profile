@@ -1,3 +1,10 @@
+# ~/.bash_profile: executed by bash for login shells.
+
+# This file is read instead of ~/.profile if it exists, so source .profile for consistent behaviour.
+if [ -f ~/.profile ]; then
+    . ~/.profile
+fi
+
 # Reminder: .bash_profile is sourced by login shells, while .bashrc is sourced by interactive non-login shells.
 # Ensure that .bash_profile sources .bashrc to maintain consistency across shell types.
 if [ -f ~/.bashrc ]; then

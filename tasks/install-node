@@ -29,12 +29,12 @@ def download_node(version, target_dir):
 def extract_node(tarball, target_dir):
     parent_dir = os.path.dirname(target_dir)
     os.makedirs(parent_dir, exist_ok=True)
-    with tempfile.TemporaryDirectory(dir=parent_dir) as tmpdir:
+    tmpdir = tempfile.TemporaryDirectory(dir=parent_dir)
+    with tmpdir:
         subprocess.run([
-            "tar", "-C", tmpdir, "-x", "--strip-components=1", "-f", tarball
+            "tar", "-C", tmpdir.name, "-x", "--strip-components=1", "-f", tarball
         ], check=True)
-        os.rename(tmpdir, target_dir)
-        tmpdir.delete = False
+        os.rename(tmpdir.namegit, target_dir)
 
 def setup_symlinks(version, home):
     latest = os.path.join(home, ".local/apps/nodejs/latest")

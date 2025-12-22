@@ -34,7 +34,7 @@ def extract_node(tarball, target_dir):
         subprocess.run([
             "tar", "-C", tmpdir.name, "-x", "--strip-components=1", "-f", tarball
         ], check=True)
-        os.rename(tmpdir.namegit, target_dir)
+        os.rename(tmpdir.name, target_dir)
 
 def setup_symlinks(version, home):
     latest = os.path.join(home, ".local/apps/nodejs/latest")

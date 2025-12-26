@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+import os
+import platform
+import subprocess
+
+version = "0.8.0"
+
+class Config:
+    app_name: str
+    git_repo: str
+    git_tag: str
+    version: str
+
+    def __init__(self):
+        self.app_name = ""
+        self.git_repo = ""
+        self.version = ""
+        self.git_tag = ""
+
+    def install(self):
+        if self.git_repo:
+            self._run_git_clone()
+        self._cargo_build()
+        self.setup_symlinks()
+
+    def _run_git_clone(self):
+        dir = self._git_dir()
+        if not os.path.exists(dir):
+            subprocess.run(["git", "clone", self.git_repo, dir, "-b", self.git_tag], check=True)
+        subprocess.run(["git", "fetch"], cwd=dir, check=True)
+        subprocess.run(["git", "checkout", self.git_tag], cwd=dir, check=True)
+
+    def _app_dir(self):
+        return os.path.join(os.path.expanduser("~"), ".local", "apps", self.app_name)
+    def _git_dir(self):
+        return os.path.join(os.path.expanduser("~"), ".local", "repos", self.app_name)
+    def _bin_dir(self):
+        return os.path.join(os.path.expanduser("~"), ".local", "bin")
+    def _dest_dir(self):
+        return os.path.join(self._app_dir(), self.version)
+
+    def _cargo_build(self):
+        src_dir = self._git_dir()
+        dest_dir = self._dest_dir()
+        env = os.environ.copy()
+        subprocess.run(["cargo", "build", "--release"], cwd=src_dir, env=env, check=True)
+        target_binary = os.path.join(src_dir, "target", "release", "git-absorb")
+        os.makedirs(dest_dir, exist_ok=True)
+        subprocess.run(["cp", target_binary, dest_dir], check=True)
+
+    def _setup_symlink(self, target, link_name):
+        if os.path.islink(link_name):
+            os.unlink(link_name)
+        os.symlink(target, link_name)
+        print(f"Linked {link_name} to {target}")
+
+    def setup_symlinks(self):
+        dest_dir = self._dest_dir()
+        bin_dir = self._bin_dir()
+        latest = os.path.join(self._app_dir(), "latest")
+
+        self._setup_symlink(os.path.join(dest_dir), latest)
+        self._setup_symlink(os.path.join(latest, "git-absorb"), os.path.join(bin_dir, "git-absorb"))
+
+
+config = Config()
+config.app_name = "git-absorb"
+config.git_repo = "https://github.com/tummychow/git-absorb.git"
+config.version = version
+config.git_tag = f"{version}"
+
+
+config.install()

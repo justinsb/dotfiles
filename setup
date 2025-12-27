@@ -8,6 +8,7 @@ ln -sf $(pwd)/bashrc ~/.bashrc
 ln -sf $(pwd)/bash_profile ~/.bash_profile
 ln -sf $(pwd)/profile ~/.profile
 ln -sf $(pwd)/gitconfig ~/.gitconfig
+ln -sf $(pwd)/zshrc ~/.zshrc
 
 mkdir -p ${BIN}/
 export PATH=~/bin:$PATH

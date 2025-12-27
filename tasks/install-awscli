@@ -10,6 +10,8 @@ if [[ "${OS}" == "Linux" ]]; then
   OS=linux
 elif [[ "${OS}" == "Darwin" ]]; then
   OS=darwin
+  brew install awscli
+  exit 0
 fi
 
 if [[ "${ARCH}" == "x86_64" ]]; then

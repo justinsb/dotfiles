@@ -17,7 +17,7 @@ download_file() {
 }
 
 # GH CLI
-VERSION=2.82.1
+VERSION=2.85.0
 if [[ ! -d "${APPS}/gh/${VERSION}" ]]; then
   #wget https://github.com/cli/cli/releases/download/v${VERSION}/gh_${VERSION}_${OS}_${ARCH}.tar.gz -O gh.tar.gz
   rm -f ${APPS}/gh/latest
@@ -29,4 +29,3 @@ if [[ ! -d "${APPS}/gh/${VERSION}" ]]; then
   ln -sf ${APPS}/gh/latest/gh ${BIN}/gh
   #rm gh.tar.gz
 fi
-

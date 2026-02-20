@@ -3,7 +3,7 @@
 set -e
 set -x
 
-VERSION=1.25.5
+VERSION=1.26.0
 
 ARCH=$(uname -m)
 OS=$(uname -s)

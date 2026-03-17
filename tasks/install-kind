@@ -23,7 +23,7 @@ APPS=~/.local/apps
 mkdir -p ${APPS}
 
 # kind
-VERSION=0.29.0
+VERSION=0.31.0
 if [[ ! -d "${APPS}/kind/${VERSION}" ]]; then
   rm -rf ${APPS}/kind/latest
   rm -rf ${APPS}/kind/${VERSION}

@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+import os
+import platform
+import subprocess
+
+version = "v4.52.5"
+
+class Config:
+    app_name: str
+    go_install: str
+    version: str
+
+    def __init__(self):
+        self.app_name = ""
+        self.go_install = ""
+        self.version = ""
+
+    def install(self):
+        if self.go_install:
+            self._run_go_install()
+        self.setup_symlinks()
+
+    def _run_go_install(self):
+        dest_dir = self._dest_dir()
+        gobin = os.path.join(dest_dir, "bin")
+
+        env = os.environ.copy()
+        env["GOBIN"] = gobin
+
+        print(f"Running: go install {self.go_install}")
+        subprocess.run(["go", "install", self.go_install], env=env, check=True)
+
+    def _app_dir(self):
+        return os.path.join(os.path.expanduser("~"), ".local", "apps", self.app_name)
+    def _bin_dir(self):
+        return os.path.join(os.path.expanduser("~"), ".local", "bin")
+    def _dest_dir(self):
+        return os.path.join(self._app_dir(), self.version)
+
+
+    def _setup_symlink(self, target, link_name):
+        if os.path.islink(link_name):
+            os.unlink(link_name)
+        os.symlink(target, link_name)
+        print(f"Linked {link_name} to {target}")
+
+    def setup_symlinks(self):
+        dest_dir = self._dest_dir()
+        bin_dir = self._bin_dir()
+        latest = os.path.join(self._app_dir(), "latest")
+
+        self._setup_symlink(os.path.join(dest_dir), latest)
+
+        self._setup_symlink(os.path.join(latest, "bin", "yq"), os.path.join(bin_dir, "yq"))
+
+
+
+config = Config()
+config.app_name = "yq"
+config.go_install = f"github.com/mikefarah/yq/v4@{version}"
+config.version = version
+
+
+config.install()

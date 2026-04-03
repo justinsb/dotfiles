@@ -60,6 +60,8 @@ tasks/install-stern
 
 tasks/install-awscli
 
+tasks/install-yq
+
 # Only on stock debian
 if grep 'BUG_REPORT_URL.*debian' /etc/os-release; then
   mkdir -p ~/.config/systemd/user

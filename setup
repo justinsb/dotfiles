@@ -75,6 +75,10 @@ fi
 tasks/install-node
 tasks/install-gemini-cli
 
+
 tasks/install-srctool
 
 tasks/install-gcloud
+
+tasks/install-ripgrep
+tasks/install-git-absorb
